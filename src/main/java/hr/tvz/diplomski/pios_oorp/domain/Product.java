@@ -25,6 +25,7 @@ public class Product {
     private BigDecimal actionPrice;
     private BigDecimal discount;
     private Integer availableQuantity;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "product")
     private List<Recension> recensions;

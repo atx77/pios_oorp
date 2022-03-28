@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,6 +20,8 @@ public class Category {
 
     private String code;
     private String name;
+    private Date creationDate;
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "parent_category_id")

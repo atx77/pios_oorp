@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,6 +27,8 @@ public class Product {
     private BigDecimal discount;
     private Integer availableQuantity;
     private String imageUrl;
+    private Date creationDate;
+    private boolean active;
 
     @OneToMany(mappedBy = "product")
     private List<Recension> recensions;

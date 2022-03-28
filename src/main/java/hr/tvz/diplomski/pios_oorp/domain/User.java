@@ -37,7 +37,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Recension> recensions;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
+    @OneToOne(mappedBy = "user")
     private Cart cart;
 }

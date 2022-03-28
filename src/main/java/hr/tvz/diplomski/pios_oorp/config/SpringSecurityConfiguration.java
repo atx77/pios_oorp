@@ -8,25 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private static final String REMEMBER_ME_COOKIE_NAME = "remember-me-cookie";
-
-    @Resource
-    private UserDetailsService userDetailsService;
-
-    @Resource
-    private DataSource dataSource;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,7 +26,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .frameOptions().sameOrigin()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/admin/**").hasRole(UserType.ROLE_ADMIN.getRole())
+                    .antMatchers("/admin/**").hasRole(UserType.ADMIN.name())
                 .and()
                     .formLogin()
                     .loginPage("/login")
@@ -53,11 +39,5 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling();
-    }
-
-    PersistentTokenRepository persistentTokenRepository(){
-        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
-        tokenRepositoryImpl.setDataSource(dataSource);
-        return tokenRepositoryImpl;
     }
 }

@@ -27,7 +27,8 @@ public class Cart {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Date creationDate;

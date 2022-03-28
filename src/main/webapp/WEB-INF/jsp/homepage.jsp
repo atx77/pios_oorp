@@ -5,8 +5,9 @@
 <head>
     <title>${test}</title>
 </head>
-<body>
-${test}
-</body>
+    <body>
+        ${test}
+        <c:if test="${not empty loggedUser}"><div>Successfully logged in with email ${loggedUser.email} role ${loggedUser.type}</div></c:if>
+    </body>
 </html>
 

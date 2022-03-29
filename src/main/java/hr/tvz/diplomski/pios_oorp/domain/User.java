@@ -1,9 +1,7 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
 import hr.tvz.diplomski.pios_oorp.enumeration.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"orders", "addresses", "recensions", "cart"})
+@EqualsAndHashCode(exclude = {"orders", "addresses", "recensions", "cart"})
 @Entity(name = "user_account")
 public class User {
 

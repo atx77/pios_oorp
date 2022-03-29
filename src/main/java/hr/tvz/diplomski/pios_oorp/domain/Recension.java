@@ -1,8 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +8,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"user", "product"})
+@EqualsAndHashCode(exclude = {"user", "product"})
 @Entity(name = "recension")
 public class Recension {
 

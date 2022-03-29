@@ -1,8 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,6 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"recensions", "category", "brand"})
+@EqualsAndHashCode(exclude = {"recensions", "category", "brand"})
 @Entity(name = "product")
 public class Product {
 

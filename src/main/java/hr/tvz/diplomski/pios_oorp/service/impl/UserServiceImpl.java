@@ -40,13 +40,13 @@ public class UserServiceImpl implements UserService {
         user.setLastName(registerForm.getLastName());
         user.setPassword(BCrypt.hashpw(registerForm.getPassword(), BCrypt.gensalt(10)));
         user.setType(UserType.CUSTOMER);
+        userRepository.save(user);
 
         Cart cart = new Cart();
         cart.setCreationDate(new Date());
-        user.setCart(cart);
-
+        cart.setUser(user);
         cartRepository.save(cart);
-        userRepository.save(user);
+
         return true;
     }
 

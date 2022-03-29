@@ -1,9 +1,7 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
 import hr.tvz.diplomski.pios_oorp.enumeration.UserType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,12 +9,17 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"orders", "addresses", "recensions", "cart"})
+@EqualsAndHashCode(exclude = {"orders", "addresses", "recensions", "cart"})
 @Entity(name = "user_account")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(unique = true)
+    private String email;
 
     private String firstName;
     private String lastName;
@@ -34,7 +37,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Recension> recensions;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
+    @OneToOne(mappedBy = "user")
     private Cart cart;
 }

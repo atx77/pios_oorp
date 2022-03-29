@@ -1,5 +1,14 @@
 package hr.tvz.diplomski.pios_oorp.enumeration;
 
 public enum UserType {
-    ROLE_CUSTOMER, ROLE_ADMIN
+
+    CUSTOMER, ADMIN;
+
+    UserType() {
+
+    }
+
+    public String getRole() {
+        return "ROLE_" + name();
+    }
 }

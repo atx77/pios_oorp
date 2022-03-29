@@ -1,8 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"items", "address", "user"})
+@EqualsAndHashCode(exclude = {"items", "address", "user"})
 @Entity(name = "cart")
 public class Cart {
 
@@ -27,7 +27,8 @@ public class Cart {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Date creationDate;

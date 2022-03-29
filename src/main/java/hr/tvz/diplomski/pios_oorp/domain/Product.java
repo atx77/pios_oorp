@@ -1,16 +1,17 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"recensions", "category", "brand"})
+@EqualsAndHashCode(exclude = {"recensions", "category", "brand"})
 @Entity(name = "product")
 public class Product {
 
@@ -26,6 +27,8 @@ public class Product {
     private BigDecimal discount;
     private Integer availableQuantity;
     private String imageUrl;
+    private Date creationDate;
+    private boolean active;
 
     @OneToMany(mappedBy = "product")
     private List<Recension> recensions;

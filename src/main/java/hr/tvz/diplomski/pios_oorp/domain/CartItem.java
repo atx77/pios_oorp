@@ -1,14 +1,14 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"cart", "product"})
+@EqualsAndHashCode(exclude = {"cart", "product"})
 @Entity(name = "cart_item")
 public class CartItem {
 

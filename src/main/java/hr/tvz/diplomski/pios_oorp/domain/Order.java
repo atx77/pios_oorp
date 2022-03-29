@@ -1,8 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"items", "shippingAddress", "user"})
+@EqualsAndHashCode(exclude = {"items", "shippingAddress", "user"})
 @Entity(name = "customer_order")
 public class Order {
 

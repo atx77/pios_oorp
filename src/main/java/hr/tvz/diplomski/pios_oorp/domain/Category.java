@@ -1,15 +1,16 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"parentCategory", "subCategories", "products"})
+@EqualsAndHashCode(exclude = {"parentCategory", "subCategories", "products"})
 @Entity(name = "category")
 public class Category {
 
@@ -19,6 +20,8 @@ public class Category {
 
     private String code;
     private String name;
+    private Date creationDate;
+    private boolean active;
 
     @ManyToOne
     @JoinColumn(name = "parent_category_id")

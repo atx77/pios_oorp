@@ -1,15 +1,15 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
 import hr.tvz.diplomski.pios_oorp.enumeration.CountryEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"user"})
+@EqualsAndHashCode(exclude = {"user"})
 @Entity(name = "address")
 public class Address {
 

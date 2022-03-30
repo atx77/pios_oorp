@@ -19,7 +19,7 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String viewLoginPage(Model model) {
-        model.addAttribute("test", "login page");
+        model.addAttribute("title", "Prijava");
         model.addAttribute("loginForm", new LoginForm());
         return PagesConstants.LOGIN;
     }

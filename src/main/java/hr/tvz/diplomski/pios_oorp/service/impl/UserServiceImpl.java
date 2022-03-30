@@ -14,10 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.Date;
 
 @Service
-
 public class UserServiceImpl implements UserService {
 
     @Resource
@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmailEquals(getLoggedUserUsername()).orElse(null);
     }
 
+    @Transactional
     @Override
     public boolean registerNewCustomer(RegisterForm registerForm) {
         // TODO check if user is registered

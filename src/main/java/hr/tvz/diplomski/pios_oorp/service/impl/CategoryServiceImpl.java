@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -18,8 +19,8 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> getAllActiveCategories() {
-        return categoryRepository.findAllByActiveIsTrueAndParentCategoryIsNull();
+    public List<Category> getAllParentCategories() {
+        return categoryRepository.findAllByParentCategoryIsNull();
     }
 
     @Transactional
@@ -45,5 +46,18 @@ public class CategoryServiceImpl implements CategoryService {
             parentCategory.getSubCategories().add(category);
             categoryRepository.save(parentCategory);
         }
+    }
+
+    @Override
+    public Optional<Category> getCategoryById(Long id) throws IllegalArgumentException{
+        return categoryRepository.findById(id);
+    }
+
+    @Override
+    public void changeCategoryVisibility(Long categoryId) {
+        Category category = getCategoryById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Category " + categoryId + "not found!"));
+        category.setActive(!category.isActive());
+        categoryRepository.save(category);
     }
 }

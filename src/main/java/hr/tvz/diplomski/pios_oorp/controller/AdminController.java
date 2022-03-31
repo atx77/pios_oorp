@@ -2,6 +2,7 @@ package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.form.admin.AddCategoryAdminForm;
+import hr.tvz.diplomski.pios_oorp.form.admin.CategoryVisibilityAdminForm;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +27,14 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/category/add", method = RequestMethod.POST)
-    public RedirectView addNewCategory(@ModelAttribute("addCategoryAdminForm")AddCategoryAdminForm form,
-                                       Model model) {
+    public RedirectView addNewCategory(@ModelAttribute("addCategoryAdminForm")AddCategoryAdminForm form) {
         categoryService.createNewCategory(form.getParentCategoryId(), form.getCategoryName());
+        return new RedirectView("/", true);
+    }
+
+    @RequestMapping(value = "/category/change-visibility", method = RequestMethod.POST)
+    public RedirectView addNewCategory(@ModelAttribute("categoryVisibilityAdminForm") CategoryVisibilityAdminForm form) {
+        categoryService.changeCategoryVisibility(form.getCategoryId());
         return new RedirectView("/", true);
     }
 }

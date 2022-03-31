@@ -18,7 +18,7 @@ public class PopulateCategoryNavigationDataHandlerInterceptor implements Handler
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
-            modelAndView.addObject("parentCategories", categoryService.getAllActiveCategories());
+            modelAndView.addObject("parentCategories", categoryService.getAllParentCategories());
         }
     }
 }

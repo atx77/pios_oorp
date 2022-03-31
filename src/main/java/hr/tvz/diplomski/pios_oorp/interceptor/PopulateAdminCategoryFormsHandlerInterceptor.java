@@ -1,8 +1,7 @@
 package hr.tvz.diplomski.pios_oorp.interceptor;
 
-import hr.tvz.diplomski.pios_oorp.domain.User;
-import hr.tvz.diplomski.pios_oorp.enumeration.UserType;
 import hr.tvz.diplomski.pios_oorp.form.admin.AddCategoryAdminForm;
+import hr.tvz.diplomski.pios_oorp.form.admin.CategoryVisibilityAdminForm;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class PopulateAdminAddCategoryFormHandlerInterceptor implements HandlerInterceptor {
+public class PopulateAdminCategoryFormsHandlerInterceptor implements HandlerInterceptor {
 
     @Resource
     private UserService userService;
@@ -21,9 +20,9 @@ public class PopulateAdminAddCategoryFormHandlerInterceptor implements HandlerIn
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
-            User user = userService.getLoggedUser();
-            if (user != null && UserType.ADMIN.equals(user.getType())) {
+            if (userService.isSessionUserAdmin()) {
                 modelAndView.addObject("addCategoryAdminForm", new AddCategoryAdminForm());
+                modelAndView.addObject("categoryVisibilityAdminForm", new CategoryVisibilityAdminForm());
             }
         }
     }

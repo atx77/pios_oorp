@@ -2,7 +2,8 @@ package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
-import hr.tvz.diplomski.pios_oorp.repository.CategoryRepository;
+import hr.tvz.diplomski.pios_oorp.service.CategoryService;
+import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +19,20 @@ import javax.annotation.Resource;
 public class CategoryController {
 
     @Resource
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
+
+    @Resource
+    private UserService userService;
 
     @RequestMapping(value = "/{categoryId}", method = RequestMethod.GET)
     public String viewCategoryPage(@PathVariable("categoryId") Long categoryId, Model model) {
-        Category category = categoryRepository.findById(categoryId)
+        Category category = categoryService.getCategoryById(categoryId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category " + categoryId + " not found!"));
-        model.addAttribute("category", "login page");
+        if (!category.isActive() && !userService.isSessionUserAdmin()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category " + categoryId + " not found!");
+        }
+
+        model.addAttribute("category", category);
         model.addAttribute("title", category.getName());
         return PagesConstants.CATEGORY;
     }

@@ -6,4 +6,7 @@ import hr.tvz.diplomski.pios_oorp.form.RegisterForm;
 public interface UserService {
     User getLoggedUser();
     boolean registerNewCustomer(RegisterForm registerForm);
+    boolean isSessionUserAdmin();
+    boolean isSessionUserGuest();
+    boolean isSessionUserCustomer();
 }

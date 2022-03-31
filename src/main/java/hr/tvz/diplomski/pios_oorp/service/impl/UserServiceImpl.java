@@ -51,6 +51,23 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public boolean isSessionUserAdmin() {
+        User user = getLoggedUser();
+        return user != null && UserType.ADMIN.equals(user.getType());
+    }
+
+    @Override
+    public boolean isSessionUserGuest() {
+        return getLoggedUser() == null;
+    }
+
+    @Override
+    public boolean isSessionUserCustomer() {
+        User user = getLoggedUser();
+        return user != null && UserType.CUSTOMER.equals(user.getType());
+    }
+
     private String getLoggedUserUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {

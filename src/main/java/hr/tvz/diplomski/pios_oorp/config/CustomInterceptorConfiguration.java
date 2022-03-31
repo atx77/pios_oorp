@@ -1,6 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.config;
 
-import hr.tvz.diplomski.pios_oorp.interceptor.PopulateAdminAddCategoryFormHandlerInterceptor;
+import hr.tvz.diplomski.pios_oorp.interceptor.PopulateAdminCategoryFormsHandlerInterceptor;
 import hr.tvz.diplomski.pios_oorp.interceptor.PopulateCategoryNavigationDataHandlerInterceptor;
 import hr.tvz.diplomski.pios_oorp.interceptor.PopulateUserDataHandlerInterceptor;
 import org.springframework.context.annotation.Configuration;
@@ -19,12 +19,12 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
     private PopulateCategoryNavigationDataHandlerInterceptor populateCategoryNavigationDataHandlerInterceptor;
 
     @Resource
-    private PopulateAdminAddCategoryFormHandlerInterceptor populateAdminAddCategoryFormHandlerInterceptor;
+    private PopulateAdminCategoryFormsHandlerInterceptor populateAdminCategoryFormsHandlerInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(populateUserDataHandlerInterceptor);
         registry.addInterceptor(populateCategoryNavigationDataHandlerInterceptor);
-        registry.addInterceptor(populateAdminAddCategoryFormHandlerInterceptor);
+        registry.addInterceptor(populateAdminCategoryFormsHandlerInterceptor);
     }
 }

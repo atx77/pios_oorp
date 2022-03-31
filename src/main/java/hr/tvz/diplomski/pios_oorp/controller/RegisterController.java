@@ -1,7 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
-import hr.tvz.diplomski.pios_oorp.form.LoginForm;
 import hr.tvz.diplomski.pios_oorp.form.RegisterForm;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ public class RegisterController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String viewLoginPage(Model model) {
-        model.addAttribute("test", "register page");
+        model.addAttribute("title", "Registracija");
         model.addAttribute("registerForm", new RegisterForm());
         return PagesConstants.REGISTER;
     }

@@ -11,7 +11,7 @@ public class HomepageController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String viewHomepage(Model model) {
-        model.addAttribute("test", "homepage");
+        model.addAttribute("title", "Homepage");
         return PagesConstants.HOMEPAGE;
     }
 }

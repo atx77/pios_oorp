@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+}
+
+#main-body-content {
+    padding: 20px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}

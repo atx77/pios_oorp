@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="wrapper" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
-<wrapper:wrapper>
+<template:wrapper>
     <div class="w-100 p-4 d-flex justify-content-center">
         <form:form action="/register" method="post" modelAttribute="registerForm" cssStyle="width: 25rem;">
             <div class="form-outline mb-4">
@@ -42,5 +42,5 @@
             <button type="submit" class="btn btn-lg btn-primary mb-4 w-100">Registrirajte se</button>
         </form:form>
     </div>
-</wrapper:wrapper>
+</template:wrapper>
 

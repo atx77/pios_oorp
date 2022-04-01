@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="wrapper" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
-<wrapper:wrapper>
+<template:wrapper>
     <c:if test="${param['error']}">
         <div>
             <div class="alert alert-danger" role="alert">
@@ -45,5 +45,5 @@
             <button type="submit" class="btn btn-lg btn-primary mb-4 w-100">Prijavite se</button>
         </form:form>
     </div>
-</wrapper:wrapper>
+</template:wrapper>
 

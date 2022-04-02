@@ -1,5 +1,7 @@
 package hr.tvz.diplomski.pios_oorp.interceptor;
 
+import hr.tvz.diplomski.pios_oorp.domain.User;
+import hr.tvz.diplomski.pios_oorp.enumeration.UserType;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,10 +20,11 @@ public class PopulateUserDataHandlerInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
-            modelAndView.addObject("loggedUser", userService.getLoggedUser());
-            modelAndView.addObject("isUserAdmin", userService.isSessionUserAdmin());
-            modelAndView.addObject("isUserCustomer", userService.isSessionUserCustomer());
-            modelAndView.addObject("isUserGuest", userService.isSessionUserGuest());
+            User user = userService.getLoggedUser();
+            modelAndView.addObject("loggedUser", user);
+            modelAndView.addObject("isUserAdmin", user != null && UserType.ADMIN.equals(user.getType()));
+            modelAndView.addObject("isUserCustomer", user != null && UserType.CUSTOMER.equals(user.getType()));
+            modelAndView.addObject("isUserGuest", user == null);
         }
     }
 }

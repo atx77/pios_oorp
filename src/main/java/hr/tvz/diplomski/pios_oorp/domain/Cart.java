@@ -3,6 +3,7 @@ package hr.tvz.diplomski.pios_oorp.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -32,4 +33,6 @@ public class Cart {
     private User user;
 
     private Date creationDate;
+
+    private BigDecimal totalPrice;
 }

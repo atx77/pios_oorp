@@ -27,6 +27,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .antMatchers("/admin/**").hasRole(UserType.ADMIN.name())
+                    .antMatchers("/cart/**").hasRole(UserType.CUSTOMER.name())
                 .and()
                     .formLogin()
                     .loginPage("/login")

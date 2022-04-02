@@ -3,5 +3,5 @@
 <%@taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <template:wrapper>
-    ${test}
+    HOME
 </template:wrapper>

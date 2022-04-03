@@ -10,8 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"items", "address", "user"})
-@EqualsAndHashCode(exclude = {"items", "address", "user"})
+@ToString(exclude = {"items", "user"})
+@EqualsAndHashCode(exclude = {"items", "user"})
 @Entity(name = "cart")
 public class Cart {
 
@@ -23,10 +23,6 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart")
     private List<CartItem> items;
-
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
 
     @OneToOne
     @JoinColumn(name = "user_id")

@@ -55,7 +55,7 @@
 
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">Adresa za dostavu</h4>
-                    <form:form action="/checkout" method="post" modelAttribute="checkoutForm">
+                    <form:form action="/cart/checkout" method="post" modelAttribute="checkoutForm">
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="firstName" class="form-label">Ime</label>
@@ -89,10 +89,10 @@
                         <div class="my-3">
                             <c:forEach items="${deliveryModes}" var="deliveryMode" varStatus="status">
                                 <div class="form-check">
-                                    <input id="deliveryMode-${status.index}" name="deliveryMode" type="radio" class="form-check-input" required <c:if test="${status.index eq 0}">checked</c:if>>
                                     <label class="form-check-label" for="deliveryMode-${status.index}">
                                         ${deliveryMode.description}
                                     </label>
+                                    <form:radiobutton path="deliveryMode" name="deliveryMode" value="${deliveryMode}" id="deliveryMode-${status.index}" class="form-check-input" required="true"/>
                                 </div>
                             </c:forEach>
                         </div>
@@ -101,10 +101,10 @@
                         <div class="my-3">
                             <c:forEach items="${paymentMethods}" var="paymentMethod" varStatus="status">
                                 <div class="form-check">
-                                    <input id="paymentMethod-${status.index}" name="paymentMethod" type="radio" class="form-check-input" required <c:if test="${status.index eq 0}">checked</c:if>>
                                     <label class="form-check-label" for="paymentMethod-${status.index}">
                                             ${paymentMethod.description}
                                     </label>
+                                    <form:radiobutton path="paymentMethod" name="paymentMethod" value="${paymentMethod}" id="paymentMethod-${status.index}" class="form-check-input" required="true"/>
                                 </div>
                             </c:forEach>
                         </div>

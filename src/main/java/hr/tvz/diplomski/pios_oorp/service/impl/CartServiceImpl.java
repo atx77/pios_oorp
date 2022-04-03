@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -66,8 +67,7 @@ public class CartServiceImpl implements CartService {
         return product;
     }
 
-    @Override
-    public BigDecimal calculateCartTotalPrice(Cart cart) {
+    private BigDecimal calculateCartTotalPrice(Cart cart) {
         return cart.getItems().stream()
                 .map(cartItem -> {
                     Product product = cartItem.getProduct();
@@ -115,6 +115,19 @@ public class CartServiceImpl implements CartService {
         }
         recalculateCartTotalPrice();
         return product;
+    }
+
+    @Transactional
+    @Override
+    public Cart clearCart(Cart cart) {
+        for (CartItem cartItem : cart.getItems()) {
+            cartItem.setCart(null);
+            cartItemRepository.save(cartItem);
+        }
+        cart.setItems(new ArrayList<>());
+        cart.setTotalPrice(BigDecimal.ZERO);
+        cartRepository.save(cart);
+        return cart;
     }
 
     private void removeInactiveProductsFromCart(Cart cart) {

@@ -19,7 +19,7 @@ public class Address {
 
     private String street;
     private String city;
-    private Integer postcode;
+    private String postcode;
     private CountryEnum country;
 
     @ManyToOne

@@ -1,7 +1,8 @@
 <%@tag description="Main wrapper" pageEncoding="UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -29,14 +30,29 @@
                         <input type="search" class="form-control form-control-dark" placeholder="Pretraži..." aria-label="Search">
                     </form>
                     <div class="text-end">
+                        <%--Cart--%>
+                        <c:if test="${not isUserAdmin}">
+                            <a href="/cart" class="btn btn-outline-light me-2">
+                                <i class="fa-solid fa-cart-shopping"></i>&nbsp;
+                                <c:choose>
+                                    <c:when test="${not empty loggedUser.cart.totalPrice}">
+                                        <fmt:formatNumber value="${loggedUser.cart.totalPrice}" type="currency" currencySymbol="${currencySymbol}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:formatNumber value="0" type="currency" currencySymbol="${currencySymbol}"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </a>
+                        </c:if>
+
                         <c:if test="${empty loggedUser}">
-                            <a href="/login" class="btn btn-outline-light me-2"><i class="fa-solid fa-right-to-bracket me-2"></i>Prijava</a>
-                            <a href="/register" class="btn btn-light"><i class="fa-solid fa-user-plus me-2"></i>Registracija</a>
+                            <a href="/login" class="btn btn-outline-light me-2"><i class="fa-solid fa-right-to-bracket me-2"></i>&nbsp;Prijava</a>
+                            <a href="/register" class="btn btn-light"><i class="fa-solid fa-user-plus me-2"></i>&nbsp;Registracija</a>
                         </c:if>
 
                         <c:if test="${not empty loggedUser}">
                             <c:if test="${isUserCustomer}">
-                                <a href="/my-profile" class="btn btn-outline-light"><i class="fa-solid fa-circle-user me-2"></i>Moj profil</a>
+                                <a href="/my-profile" class="btn btn-outline-light"><i class="fa-solid fa-circle-user me-2"></i>&nbsp;Moj profil</a>
                             </c:if>
                             <a href="/logout" class="btn btn-outline-light"><i class="fa-solid fa-right-from-bracket me-2"></i>Odjavi se</a>
                         </c:if>

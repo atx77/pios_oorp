@@ -24,7 +24,7 @@ public class Product {
     private String summary;
     private BigDecimal regularPrice;
     private BigDecimal actionPrice;
-    private BigDecimal discount;
+    private BigDecimal discountPercentage;
     private Integer availableQuantity;
     private String imageUrl;
     private Date creationDate;

@@ -63,4 +63,21 @@ public class CartServiceImpl implements CartService {
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    @Override
+    public void recalculateCartTotalPrice() {
+        Cart cart = userService.getLoggedUser().getCart();
+        removeInactiveProductsFromCart(cart);
+        cart.setTotalPrice(calculateCartTotalPrice(cart));
+        cartRepository.save(cart);
+    }
+
+    private void removeInactiveProductsFromCart(Cart cart) {
+        for (CartItem cartItem : cart.getItems()) {
+            if (cartItem.getProduct() != null && !cartItem.getProduct().isActive()) {
+                cartItem.setCart(null);
+                cartItemRepository.save(cartItem);
+            }
+        }
+    }
 }

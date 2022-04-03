@@ -2,6 +2,7 @@ package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
+import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
@@ -36,6 +37,11 @@ public class CategoryController {
         model.addAttribute("category", category);
         model.addAttribute("title", category.getName());
         model.addAttribute("addToCartForm", new AddToCartForm());
+
+        if (userService.isSessionUserAdmin()) {
+            model.addAttribute("addNewProductForm", new AddNewProductForm());
+        }
+
         return PagesConstants.CATEGORY;
     }
 }

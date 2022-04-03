@@ -3,7 +3,9 @@ package hr.tvz.diplomski.pios_oorp.service;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
 
+import java.util.Optional;
+
 public interface ProductService {
-    Product getProductForId(Long id);
+    Optional<Product> getProductForId(Long id);
     Product createNewProduct(AddNewProductForm productForm);
 }

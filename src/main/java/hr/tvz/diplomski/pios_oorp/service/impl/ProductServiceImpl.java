@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,8 +30,8 @@ public class ProductServiceImpl implements ProductService {
     private CategoryService categoryService;
 
     @Override
-    public Product getProductForId(Long id) {
-        return productRepository.getById(id);
+    public Optional<Product> getProductForId(Long id) {
+        return Optional.ofNullable(productRepository.getById(id));
     }
 
     @Transactional
@@ -66,6 +67,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return BigDecimal.ONE.subtract(actionPrice.divide(regularPrice, 2, RoundingMode.HALF_UP))
                 .multiply(new BigDecimal(100))
-                .setScale(0, RoundingMode.HALF_UP);
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

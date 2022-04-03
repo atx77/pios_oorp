@@ -35,17 +35,21 @@
                 <div class="row g-2">
                     <%--Display products from selected category--%>
                     <c:forEach items="${category.products}" var="product" varStatus="productCount">
-                        <div class="col-md-4 mt-3 basic-example-item">
-                            <tags:productListItem product="${product}" chosenCategory="${category}" categoryIndex="1" productIndex="${productCount.index}"/>
-                        </div>
+                        <c:if test="${product.active}">
+                            <div class="col-md-4 mt-3 basic-example-item">
+                                <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="0" productIndex="${productCount.index}"/>
+                            </div>
+                        </c:if>
                     </c:forEach>
 
                     <%--Display products from subcategories--%>
                     <c:forEach items="${category.subCategories}" var="subCategory" varStatus="subCategoryCount">
                         <c:forEach items="${subCategory.products}" var="product" varStatus="productCount">
-                            <div class="col-md-4 mt-3 basic-example-item">
-                                <tags:productListItem product="${product}" chosenCategory="${category}" categoryIndex="1" productIndex="${productCount.index}"/>
-                            </div>
+                            <c:if test="${product.active}">
+                                <div class="col-md-4 mt-3 basic-example-item">
+                                    <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="${subCategoryCount.index + 1}" productIndex="${productCount.index}"/>
+                                </div>
+                            </c:if>
                         </c:forEach>
                     </c:forEach>
 

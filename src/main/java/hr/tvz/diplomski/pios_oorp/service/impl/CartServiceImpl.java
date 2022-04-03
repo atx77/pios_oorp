@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -34,18 +35,29 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void addProductToCart(Long productId, Integer quantity) {
-        Product product = productService.getProductForId(productId);
-        if (product == null) {
-            throw new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId));
+        if (quantity == null || quantity < 1) {
+            throw new IllegalArgumentException("Quantity must be greater than 1!");
         }
+        Product product = productService.getProductForId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId)));
         User user = userService.getLoggedUser();
         Cart cart = user.getCart();
+        removeInactiveProductsFromCart(cart);
 
-        //TODO check if cartItem with same product already exists, increase quantity
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(quantity);
+        CartItem cartItem = null;
+        Optional<CartItem> cartItemOptional = cart.getItems().stream()
+                .filter(ci -> ci.getProduct() != null && productId.equals(ci.getProduct().getId()))
+                .findFirst();
+
+        if (cartItemOptional.isPresent()) {
+            cartItem = cartItemOptional.get();
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        } else {
+            cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+        }
         cartItemRepository.save(cartItem);
 
         cart.getItems().add(cartItem);
@@ -62,5 +74,54 @@ public class CartServiceImpl implements CartService {
                     return productPrice.multiply(BigDecimal.valueOf(cartItem.getQuantity()));
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public void recalculateCartTotalPrice() {
+        Cart cart = userService.getLoggedUser().getCart();
+        removeInactiveProductsFromCart(cart);
+        cart.setTotalPrice(calculateCartTotalPrice(cart));
+        cartRepository.save(cart);
+    }
+
+    @Override
+    public Product removeProductFromCart(Long productId) {
+        Product product = productService.getProductForId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId)));
+        for (CartItem cartItem : userService.getLoggedUser().getCart().getItems()) {
+            if (product.equals(cartItem.getProduct())) {
+                cartItem.setCart(null);
+                cartItemRepository.save(cartItem);
+            }
+        }
+        recalculateCartTotalPrice();
+        return product;
+    }
+
+    @Override
+    public Product changeProductQuantityInCart(Long productId, Integer quantity) {
+        if (quantity == null || quantity < 1) {
+            return removeProductFromCart(productId);
+        }
+
+        Product product = productService.getProductForId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId)));
+        for (CartItem cartItem : userService.getLoggedUser().getCart().getItems()) {
+            if (product.equals(cartItem.getProduct())) {
+                cartItem.setQuantity(quantity);
+                cartItemRepository.save(cartItem);
+            }
+        }
+        recalculateCartTotalPrice();
+        return product;
+    }
+
+    private void removeInactiveProductsFromCart(Cart cart) {
+        for (CartItem cartItem : cart.getItems()) {
+            if (cartItem.getProduct() != null && !cartItem.getProduct().isActive()) {
+                cartItem.setCart(null);
+                cartItemRepository.save(cartItem);
+            }
+        }
     }
 }

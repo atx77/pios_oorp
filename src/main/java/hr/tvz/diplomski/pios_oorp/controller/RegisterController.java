@@ -1,6 +1,8 @@
 package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
+import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
+import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
 import hr.tvz.diplomski.pios_oorp.form.RegisterForm;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -32,8 +34,9 @@ public class RegisterController {
     public RedirectView registerNewCustomer(@Valid @ModelAttribute("registerForm")RegisterForm registerForm,
                                 RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/login", true);
-        redirectAttributes.addFlashAttribute("sucessfullyRegistered", true);
         userService.registerNewCustomer(registerForm);
+        redirectAttributes.addFlashAttribute("alertMessage",
+                new AlertMessage("Uspješno ste se registrirali. Prijavite se.", AlertType.SUCCESS));
         return redirectView;
     }
 }

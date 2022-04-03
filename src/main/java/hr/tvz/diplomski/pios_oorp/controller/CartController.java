@@ -2,6 +2,8 @@ package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
+import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
+import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.form.ChangeProductQuantityInCartForm;
 import hr.tvz.diplomski.pios_oorp.form.RemoveProductFromCartForm;
@@ -47,8 +49,10 @@ public class CartController {
                                          RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/cart", true);
         Product removedProduct = cartService.removeProductFromCart(form.getProductId());
-        redirectAttributes.addFlashAttribute("message",
-                MessageFormat.format("Obrisali ste proizvod \"{0}\" iz košarice.", removedProduct.getName()));
+        redirectAttributes.addFlashAttribute("alertMessage",
+                new AlertMessage(MessageFormat.format("Obrisali ste proizvod \"{0}\" iz košarice.", removedProduct.getName()),
+                        AlertType.SUCCESS)
+        );
         return redirectView;
     }
 
@@ -57,8 +61,10 @@ public class CartController {
                                               RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/cart", true);
         Product changedProduct = cartService.changeProductQuantityInCart(form.getProductId(), form.getQuantity());
-        redirectAttributes.addFlashAttribute("message",
-                MessageFormat.format("Promijenili ste količinu proizvodu \"{0}\" u {1}.", changedProduct.getName(), form.getQuantity()));
+        redirectAttributes.addFlashAttribute("alertMessage",
+                new AlertMessage(MessageFormat.format("Promijenili ste količinu proizvodu \"{0}\" u {1}.", changedProduct.getName(), form.getQuantity()),
+                        AlertType.SUCCESS)
+        );
         return redirectView;
     }
 }

@@ -164,6 +164,32 @@
             </div>
         </nav>
 
+        <%--Shows alert message--%>
+        <c:if test="${not empty alertMessage}">
+            <div id="alert-message-wrapper" class="px-4 my-2">
+                <c:choose>
+                    <c:when test="${alertMessage.alertType eq 'SUCCESS'}">
+                        <div class="alert alert-dismissible alert-success" role="alert">
+                            <i class="fa-solid fa-circle-check me-2"></i>&nbsp;${alertMessage.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </c:when>
+                    <c:when test="${alertMessage.alertType eq 'DANGER'}">
+                        <div class="alert alert-dismissible alert-danger" role="alert">
+                            <i class="fa-solid fa-circle-exclamation me-2"></i>&nbsp;${alertMessage.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="alert alert-dismissible alert-info" role="alert">
+                            <i class="fa-solid fa-circle-info me-2"></i>&nbsp;${alertMessage.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+        </c:if>
+
         <div id="main-body-content">
             <jsp:doBody/>
         </div>

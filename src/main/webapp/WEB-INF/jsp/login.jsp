@@ -6,17 +6,11 @@
 <template:wrapper>
     <c:if test="${param['error']}">
         <div>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-dismissible alert-danger" role="alert">
                 <i class="fa-solid fa-circle-exclamation me-2"></i>Došlo je do greške! Provjerite e-mail i lozinku.
             </div>
         </div>
     </c:if>
-    <c:if test="${sucessfullyRegistered}">
-        <div class="alert alert-success" role="alert">
-            <i class="fa-solid fa-circle-exclamation me-2"></i>Uspješno ste se registrirali. Prijavite se.
-        </div>
-    </c:if>
-
     <div class="w-100 p-4 d-flex justify-content-center">
         <form:form action="/login" method="post" modelAttribute="loginForm" cssStyle="width: 25rem;">
             <div class="form-outline mb-4">

@@ -19,13 +19,6 @@
         </div>
     </div>
     <hr>
-    <%--Shows alert message--%>
-    <c:if test="${not empty message}">
-        <div class="alert alert-dismissible alert-success" role="alert">
-            <i class="fa-solid fa-circle-check me-2"></i>&nbsp;${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </c:if>
     <c:choose>
         <c:when test="${loggedUser.cart.items.size() < 1}">
             <h4>Nemate proizvoda u košarici</h4>

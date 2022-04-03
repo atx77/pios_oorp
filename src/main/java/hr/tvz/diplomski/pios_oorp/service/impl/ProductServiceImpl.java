@@ -7,18 +7,19 @@ import hr.tvz.diplomski.pios_oorp.repository.ProductRepository;
 import hr.tvz.diplomski.pios_oorp.service.BrandService;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
 import hr.tvz.diplomski.pios_oorp.service.ProductService;
+import hr.tvz.diplomski.pios_oorp.util.PriceUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final PriceUtils priceUtils = new PriceUtils();
 
     @Resource
     private ProductRepository productRepository;
@@ -51,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSummary(productForm.getSummary());
         product.setRegularPrice(productForm.getRegularPrice());
         product.setActionPrice(productForm.getActionPrice());
-        product.setDiscountPercentage(calculateDiscount(productForm.getRegularPrice(), productForm.getActionPrice()));
+        product.setDiscountPercentage(priceUtils.calculateDiscountPercentage(productForm.getRegularPrice(), productForm.getActionPrice()));
         product.setAvailableQuantity(1000);
         product.setActive(true);
         product.setImageUrl(productForm.getImageUrl());
@@ -59,14 +60,5 @@ public class ProductServiceImpl implements ProductService {
         product.setCreationDate(new Date());
         productRepository.save(product);
         return product;
-    }
-
-    private BigDecimal calculateDiscount(BigDecimal regularPrice, BigDecimal actionPrice) {
-        if (actionPrice == null) {
-            return BigDecimal.ZERO;
-        }
-        return BigDecimal.ONE.subtract(actionPrice.divide(regularPrice, 2, RoundingMode.HALF_UP))
-                .multiply(new BigDecimal(100))
-                .setScale(2, RoundingMode.HALF_UP);
     }
 }

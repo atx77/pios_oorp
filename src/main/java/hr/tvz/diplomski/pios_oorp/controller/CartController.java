@@ -1,13 +1,18 @@
 package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
+import hr.tvz.diplomski.pios_oorp.domain.Order;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
 import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
+import hr.tvz.diplomski.pios_oorp.enumeration.DeliveryMode;
+import hr.tvz.diplomski.pios_oorp.enumeration.PaymentMethod;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.form.ChangeProductQuantityInCartForm;
+import hr.tvz.diplomski.pios_oorp.form.CheckoutForm;
 import hr.tvz.diplomski.pios_oorp.form.RemoveProductFromCartForm;
 import hr.tvz.diplomski.pios_oorp.service.CartService;
+import hr.tvz.diplomski.pios_oorp.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +32,9 @@ public class CartController {
     @Resource
     private CartService cartService;
 
+    @Resource
+    private OrderService orderService;
+
     @RequestMapping(method = RequestMethod.GET)
     public String viewCartPage(Model model) {
         model.addAttribute("title", "Pregled košarice");
@@ -34,6 +42,28 @@ public class CartController {
         model.addAttribute("changeProductQuantityInCartForm", new ChangeProductQuantityInCartForm());
         cartService.recalculateCartTotalPrice();
         return PagesConstants.CART;
+    }
+
+    @RequestMapping(value = "/checkout", method = RequestMethod.GET)
+    public String viewCheckoutPage(Model model) {
+        model.addAttribute("title", "Naplata");
+        model.addAttribute("checkoutForm", new CheckoutForm());
+        model.addAttribute("deliveryModes", DeliveryMode.values());
+        model.addAttribute("paymentMethods", PaymentMethod.values());
+        cartService.recalculateCartTotalPrice();
+        return PagesConstants.CHECKOUT;
+    }
+
+    @RequestMapping(value = "/checkout", method = RequestMethod.POST)
+    public RedirectView createOrder(@Valid @ModelAttribute("checkoutForm")CheckoutForm form,
+                                    RedirectAttributes redirectAttributes) {
+        final RedirectView redirectView = new RedirectView("/");
+        Order order = orderService.createOrderForCurrentUser(form);
+        redirectAttributes.addFlashAttribute("alertMessage",
+                new AlertMessage(MessageFormat.format("Uspješno ste napravili narudžbu br. {0}", order.getCode()),
+                        AlertType.SUCCESS)
+        );
+        return redirectView;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

@@ -17,10 +17,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String streetName;
-    private String streetNumber;
+    private String street;
     private String city;
-    private Integer postcode;
+    private String postcode;
     private CountryEnum country;
 
     @ManyToOne

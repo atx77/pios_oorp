@@ -9,4 +9,5 @@ public class PagesConstants {
     public static final String ERROR = "error/error";
     public static final String ERROR_404 = "error/error404";
     public static final String CART = "cart";
+    public static final String CHECKOUT = "checkout";
 }

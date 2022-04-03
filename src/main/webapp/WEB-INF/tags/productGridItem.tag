@@ -39,7 +39,7 @@
             <form:form action="/cart/add" method="post" modelAttribute="addToCartForm" id="add-to-cart-form-${productIndex}-${categoryIndex}">
                 <form:hidden path="productId" value="${product.id}" id="add-to-cart-form-productid-${productIndex}-${categoryIndex}"/>
                 <form:input type="number" path="quantity" value="1" cssClass="form-control" min="1" max="10" id="add-to-cart-form-${productIndex}-${categoryIndex}"/>
-                <button type="submit" class="btn btn-primary w-100 my-1"><i class="fa-solid fa-cart-plus"></i> Dodaj u košaricu</button>
+                <button type="submit" class="btn btn-primary w-100 my-1"><i class="fa-solid fa-cart-plus"></i>&nbsp;Dodaj u košaricu</button>
             </form:form>
         </c:if>
     </div>

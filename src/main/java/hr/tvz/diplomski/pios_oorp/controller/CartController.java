@@ -4,8 +4,11 @@ import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
 import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
+import hr.tvz.diplomski.pios_oorp.enumeration.DeliveryMode;
+import hr.tvz.diplomski.pios_oorp.enumeration.PaymentMethod;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.form.ChangeProductQuantityInCartForm;
+import hr.tvz.diplomski.pios_oorp.form.CheckoutForm;
 import hr.tvz.diplomski.pios_oorp.form.RemoveProductFromCartForm;
 import hr.tvz.diplomski.pios_oorp.service.CartService;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,16 @@ public class CartController {
         model.addAttribute("changeProductQuantityInCartForm", new ChangeProductQuantityInCartForm());
         cartService.recalculateCartTotalPrice();
         return PagesConstants.CART;
+    }
+
+    @RequestMapping(value = "/checkout", method = RequestMethod.GET)
+    public String viewCheckoutPage(Model model) {
+        model.addAttribute("title", "Naplata");
+        model.addAttribute("checkoutForm", new CheckoutForm());
+        model.addAttribute("deliveryModes", DeliveryMode.values());
+        model.addAttribute("paymentMethods", PaymentMethod.values());
+        cartService.recalculateCartTotalPrice();
+        return PagesConstants.CHECKOUT;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

@@ -66,6 +66,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return BigDecimal.ONE.subtract(actionPrice.divide(regularPrice, 2, RoundingMode.HALF_UP))
                 .multiply(new BigDecimal(100))
-                .setScale(0, RoundingMode.HALF_UP);
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

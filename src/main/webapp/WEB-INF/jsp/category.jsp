@@ -37,7 +37,7 @@
                     <c:forEach items="${category.products}" var="product" varStatus="productCount">
                         <c:if test="${product.active}">
                             <div class="col-md-4 mt-3 basic-example-item">
-                                <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="1" productIndex="${productCount.index}"/>
+                                <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="0" productIndex="${productCount.index}"/>
                             </div>
                         </c:if>
                     </c:forEach>
@@ -47,7 +47,7 @@
                         <c:forEach items="${subCategory.products}" var="product" varStatus="productCount">
                             <c:if test="${product.active}">
                                 <div class="col-md-4 mt-3 basic-example-item">
-                                    <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="1" productIndex="${productCount.index}"/>
+                                    <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="${subCategoryCount.index + 1}" productIndex="${productCount.index}"/>
                                 </div>
                             </c:if>
                         </c:forEach>

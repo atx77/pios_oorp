@@ -29,7 +29,7 @@ public class RegisterController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public RedirectView viewLoginPage(@Valid @ModelAttribute("registerForm")RegisterForm registerForm,
+    public RedirectView registerNewCustomer(@Valid @ModelAttribute("registerForm")RegisterForm registerForm,
                                 RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/login", true);
         redirectAttributes.addFlashAttribute("sucessfullyRegistered", true);

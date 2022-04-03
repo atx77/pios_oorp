@@ -5,11 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class AddToCartForm {
-
+public class RemoveProductFromCartForm {
     @NotNull
     private Long productId;
-
-    @NotNull
-    private Integer quantity;
 }

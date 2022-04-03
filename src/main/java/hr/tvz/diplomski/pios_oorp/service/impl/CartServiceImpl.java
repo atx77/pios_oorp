@@ -35,10 +35,11 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void addProductToCart(Long productId, Integer quantity) {
-        Product product = productService.getProductForId(productId);
-        if (product == null) {
-            throw new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId));
+        if (quantity == null || quantity < 1) {
+            throw new IllegalArgumentException("Quantity must be greater than 1!");
         }
+        Product product = productService.getProductForId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId)));
         User user = userService.getLoggedUser();
         Cart cart = user.getCart();
         removeInactiveProductsFromCart(cart);
@@ -81,6 +82,19 @@ public class CartServiceImpl implements CartService {
         removeInactiveProductsFromCart(cart);
         cart.setTotalPrice(calculateCartTotalPrice(cart));
         cartRepository.save(cart);
+    }
+
+    @Override
+    public Product removeProductFromCart(Long productId) {
+        Product product = productService.getProductForId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId)));
+        for (CartItem cartItem : userService.getLoggedUser().getCart().getItems()) {
+            if (product.equals(cartItem.getProduct())) {
+                cartItem.setCart(null);
+                cartItemRepository.save(cartItem);
+            }
+        }
+        return product;
     }
 
     private void removeInactiveProductsFromCart(Cart cart) {

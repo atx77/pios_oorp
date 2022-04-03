@@ -19,6 +19,13 @@
         </div>
     </div>
     <hr>
+    <%--Shows alert message--%>
+    <c:if test="${not empty message}">
+        <div class="alert alert-dismissible alert-success" role="alert">
+            <i class="fa-solid fa-circle-check me-2"></i>&nbsp;${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </c:if>
     <c:choose>
         <c:when test="${loggedUser.cart.items.size() < 1}">
             <h4>Nemate proizvoda u košarici</h4>
@@ -72,9 +79,13 @@
                                 <input type="number" min="1" class="form-control me-1" style="width: 75px;" value="${cartItem.quantity}">
                                 <button type="submit" class="btn btn-outline-success text-wrap">Promijeni količinu</button>
                             </div>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fa-solid fa-xmark"></i>&nbsp;Obriši
-                            </button>
+
+                            <form:form action="/cart/remove-product" method="post" modelAttribute="removeProductFromCartForm" id="remove-product-from-cart-form-${cartItemStatus.index}" cssClass="m-0">
+                                <form:hidden path="productId" value="${cartItem.product.id}" id="remove-product-from-cart-form-productId-${cartItemStatus.index}"/>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fa-solid fa-xmark"></i>&nbsp;Obriši
+                                </button>
+                            </form:form>
                         </div>
                     </div>
                 </div>

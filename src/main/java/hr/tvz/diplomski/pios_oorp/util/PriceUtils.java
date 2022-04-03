@@ -9,7 +9,7 @@ public class PriceUtils {
         if (actionPrice == null) {
             return BigDecimal.ZERO;
         }
-        return BigDecimal.ONE.subtract(actionPrice.divide(regularPrice, 2, RoundingMode.HALF_UP))
+        return BigDecimal.ONE.subtract(actionPrice.divide(regularPrice, 4, RoundingMode.HALF_UP))
                 .multiply(new BigDecimal(100))
                 .setScale(2, RoundingMode.HALF_UP);
     }

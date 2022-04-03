@@ -31,7 +31,7 @@ public class CartController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public RedirectView addProductToCart(@Valid @ModelAttribute("addToCartForm")AddToCartForm addToCartForm,
                                          RedirectAttributes redirectAttributes) {
-        final RedirectView redirectView = new RedirectView("/", true);
+        final RedirectView redirectView = new RedirectView("/cart", true);
         cartService.addProductToCart(addToCartForm.getProductId(), addToCartForm.getQuantity());
         return redirectView;
     }

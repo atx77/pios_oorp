@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -40,12 +41,22 @@ public class CartServiceImpl implements CartService {
         }
         User user = userService.getLoggedUser();
         Cart cart = user.getCart();
+        removeInactiveProductsFromCart(cart);
 
-        //TODO check if cartItem with same product already exists, increase quantity
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(quantity);
+        CartItem cartItem = null;
+        Optional<CartItem> cartItemOptional = cart.getItems().stream()
+                .filter(ci -> ci.getProduct() != null && productId.equals(ci.getProduct().getId()))
+                .findFirst();
+
+        if (cartItemOptional.isPresent()) {
+            cartItem = cartItemOptional.get();
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        } else {
+            cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(quantity);
+        }
         cartItemRepository.save(cartItem);
 
         cart.getItems().add(cartItem);

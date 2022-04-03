@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void addProductToCart(Long productId, Integer quantity) {
+    public Product addProductToCart(Long productId, Integer quantity) {
         if (quantity == null || quantity < 1) {
             throw new IllegalArgumentException("Quantity must be greater than 1!");
         }
@@ -63,6 +63,7 @@ public class CartServiceImpl implements CartService {
         cart.getItems().add(cartItem);
         cart.setTotalPrice(calculateCartTotalPrice(cart));
         cartRepository.save(cart);
+        return product;
     }
 
     @Override

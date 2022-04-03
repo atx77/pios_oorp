@@ -37,10 +37,14 @@ public class CartController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public RedirectView addProductToCart(@Valid @ModelAttribute("addToCartForm")AddToCartForm addToCartForm,
+    public RedirectView addProductToCart(@Valid @ModelAttribute("addToCartForm")AddToCartForm form,
                                          RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/cart", true);
-        cartService.addProductToCart(addToCartForm.getProductId(), addToCartForm.getQuantity());
+        Product addedProduct = cartService.addProductToCart(form.getProductId(), form.getQuantity());
+        redirectAttributes.addFlashAttribute("alertMessage",
+                new AlertMessage(MessageFormat.format("Dodali ste proizvod \"{0}\" u košaricu s količinom {1}.", addedProduct.getName(), form.getQuantity()),
+                        AlertType.SUCCESS)
+        );
         return redirectView;
     }
 

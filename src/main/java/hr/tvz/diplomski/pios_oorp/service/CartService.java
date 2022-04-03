@@ -10,4 +10,5 @@ public interface CartService {
     BigDecimal calculateCartTotalPrice(Cart cart);
     void recalculateCartTotalPrice();
     Product removeProductFromCart(Long productId);
+    Product changeProductQuantityInCart(Long productId, Integer quantity);
 }

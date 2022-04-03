@@ -94,6 +94,25 @@ public class CartServiceImpl implements CartService {
                 cartItemRepository.save(cartItem);
             }
         }
+        recalculateCartTotalPrice();
+        return product;
+    }
+
+    @Override
+    public Product changeProductQuantityInCart(Long productId, Integer quantity) {
+        if (quantity == null || quantity < 1) {
+            return removeProductFromCart(productId);
+        }
+
+        Product product = productService.getProductForId(productId)
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Product with id {0} does not exist!", productId)));
+        for (CartItem cartItem : userService.getLoggedUser().getCart().getItems()) {
+            if (product.equals(cartItem.getProduct())) {
+                cartItem.setQuantity(quantity);
+                cartItemRepository.save(cartItem);
+            }
+        }
+        recalculateCartTotalPrice();
         return product;
     }
 

@@ -75,10 +75,13 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center align-items-center">
-                            <div class="mx-5 d-inline-flex align-items-center">
-                                <input type="number" min="1" class="form-control me-1" style="width: 75px;" value="${cartItem.quantity}">
-                                <button type="submit" class="btn btn-outline-success text-wrap">Promijeni količinu</button>
-                            </div>
+                            <form:form action="/cart/change-quantity" method="post" modelAttribute="changeProductQuantityInCartForm" id="change-quantity-form-${cartItemStatus.index}" cssClass="m-0">
+                                <div class="mx-5 d-inline-flex align-items-center">
+                                    <form:hidden path="productId" value="${cartItem.product.id}" id="change-quantity-form-productId-${cartItemStatus.index}"/>
+                                    <form:input path="quantity" type="number" cssClass="form-control me-1" style="width: 75px;" min="0" step="1" value="${cartItem.quantity}" id="change-quantity-form-quantity-${cartItemStatus.index}"/>
+                                    <button type="submit" class="btn btn-outline-success text-wrap">Promijeni količinu</button>
+                                </div>
+                            </form:form>
 
                             <form:form action="/cart/remove-product" method="post" modelAttribute="removeProductFromCartForm" id="remove-product-from-cart-form-${cartItemStatus.index}" cssClass="m-0">
                                 <form:hidden path="productId" value="${cartItem.product.id}" id="remove-product-from-cart-form-productId-${cartItemStatus.index}"/>

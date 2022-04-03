@@ -3,6 +3,7 @@ package hr.tvz.diplomski.pios_oorp.controller;
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
+import hr.tvz.diplomski.pios_oorp.form.ChangeProductQuantityInCartForm;
 import hr.tvz.diplomski.pios_oorp.form.RemoveProductFromCartForm;
 import hr.tvz.diplomski.pios_oorp.service.CartService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class CartController {
     public String viewCartPage(Model model) {
         model.addAttribute("title", "Pregled košarice");
         model.addAttribute("removeProductFromCartForm", new RemoveProductFromCartForm());
+        model.addAttribute("changeProductQuantityInCartForm", new ChangeProductQuantityInCartForm());
         cartService.recalculateCartTotalPrice();
         return PagesConstants.CART;
     }
@@ -45,7 +47,18 @@ public class CartController {
                                          RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/cart", true);
         Product removedProduct = cartService.removeProductFromCart(form.getProductId());
-        redirectAttributes.addFlashAttribute("message", MessageFormat.format("Obrisali ste proizvod \"{0}\" iz košarice.", removedProduct.getName()));
+        redirectAttributes.addFlashAttribute("message",
+                MessageFormat.format("Obrisali ste proizvod \"{0}\" iz košarice.", removedProduct.getName()));
+        return redirectView;
+    }
+
+    @RequestMapping(value = "/change-quantity", method = RequestMethod.POST)
+    public RedirectView changeProductQuantityInCart(@Valid @ModelAttribute("changeProductQuantityInCartForm")ChangeProductQuantityInCartForm form,
+                                              RedirectAttributes redirectAttributes) {
+        final RedirectView redirectView = new RedirectView("/cart", true);
+        Product changedProduct = cartService.changeProductQuantityInCart(form.getProductId(), form.getQuantity());
+        redirectAttributes.addFlashAttribute("message",
+                MessageFormat.format("Promijenili ste količinu proizvodu \"{0}\" u {1}.", changedProduct.getName(), form.getQuantity()));
         return redirectView;
     }
 }

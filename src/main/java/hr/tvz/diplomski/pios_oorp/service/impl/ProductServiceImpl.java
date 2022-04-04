@@ -1,5 +1,6 @@
 package hr.tvz.diplomski.pios_oorp.service.impl;
 
+import hr.tvz.diplomski.pios_oorp.domain.Brand;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
@@ -7,14 +8,17 @@ import hr.tvz.diplomski.pios_oorp.repository.ProductRepository;
 import hr.tvz.diplomski.pios_oorp.service.BrandService;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
 import hr.tvz.diplomski.pios_oorp.service.ProductService;
+import hr.tvz.diplomski.pios_oorp.service.ProductSearchSpecificationBuilder;
 import hr.tvz.diplomski.pios_oorp.util.PriceUtils;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,6 +33,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Resource
     private CategoryService categoryService;
+
+    @Resource
+    private ProductSearchSpecificationBuilder productSearchSpecificationBuilder;
 
     @Override
     public Optional<Product> getProductForId(Long id) {
@@ -60,5 +67,26 @@ public class ProductServiceImpl implements ProductService {
         product.setCreationDate(new Date());
         productRepository.save(product);
         return product;
+    }
+
+    @Override
+    public List<Product> findAllProductsInCategoryAndFilter(Category category, List<String> brandNames, BigDecimal minPrice, BigDecimal maxPrice, boolean isOnSale) {
+        List<Category> parentAndChildCategories = new ArrayList<>();
+        parentAndChildCategories.add(category);
+        parentAndChildCategories.addAll(category.getSubCategories());
+
+        List<Brand> brands = new ArrayList<>();
+        if (brandNames != null) {
+            brands = brandService.getBrandsForNames(brandNames);
+        }
+
+        Specification<Product> productSpecification = productSearchSpecificationBuilder.build(parentAndChildCategories,
+                brands, minPrice, maxPrice, isOnSale, null);
+        return productRepository.findAll(productSpecification);
+    }
+
+    @Override
+    public List<Brand> getBrandsForProducts(List<Product> products) {
+        return products.stream().map(Product::getBrand).filter(Objects::nonNull).distinct().collect(Collectors.toList());
     }
 }

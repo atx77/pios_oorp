@@ -3,62 +3,93 @@
 <%@taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <template:wrapper>
     <div class="container-fluid mt-5 mb-5">
         <div class="row g-2">
             <div class="col-md-3">
-                <h5 class="text-uppercase">Sortiranje</h5>
-                <hr>
-                <h5 class="text-uppercase">Filteri</h5>
-                <hr>
-                <div class="p-2">
-                    <div class="heading d-flex justify-content-between align-items-center">
-                        <h6 class="text-uppercase">BRAND</h6>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="filter-1">
-                            <label class="form-check-label" for="filter-1">TODO</label>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="filter-2">
-                            <label class="form-check-label" for="filter-2">TODO</label>
-                        </div>
-                    </div>
-                </div>
+                <form action="/category/${category.id}" method="get" >
+                    <h5 class="text-uppercase">Sortiranje</h5>
+                    <hr>
+                    <div class="mb-5">TODO</div>
 
+                    <h5 class="text-uppercase">Filteri</h5>
+                    <hr>
+                    <div class="p-2">
+                        <div class="heading d-flex justify-content-between align-items-center">
+                            <h6 class="text-uppercase">Brand</h6>
+                        </div>
+                        <c:forEach items="${productBrands}" var="productBrand">
+                            <div class="d-flex justify-content-between mt-2">
+                                <div class="form-check">
+                                    <input type="checkbox" id="brand-${productBrand.name}" name="brand" value="${productBrand.name}" class="form-check-input" ${fn:containsIgnoreCase(filteredBrands, productBrand.name) ? 'checked="checked"' : ''}>
+                                    <label class="form-check-label" for="brand-${productBrand.name}">${productBrand.name}</label>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <hr>
+                    <div class="p-2">
+                        <div class="heading d-flex justify-content-between align-items-center">
+                            <h6 class="text-uppercase">Rasprodaja</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="form-check">
+                                <input type="checkbox" id="isOnSale" name="isOnSale" value="true" class="form-check-input" ${filteredIsOnSale eq true ? 'checked="checked"' : ''}>
+                                <label class="form-check-label" for="isOnSale">Na rasprodaji</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="p-2">
+                        <div class="heading d-flex justify-content-between align-items-center">
+                            <h6 class="text-uppercase">Cijena</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="w-100">
+                                <label class="form-label" for="minPrice">Najniža cijena</label>
+                                <input type="number" id="minPrice" name="minPrice" class="form-control" min="0.01" step="0.01" value="${not empty filteredMinPrice ? filteredMinPrice : ''}">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="w-100">
+                                <label class="form-label" for="maxPrice">Najviša cijena</label>
+                                <input type="number" id="maxPrice" name="maxPrice" class="form-control" min="0.01" step="0.01" value="${not empty filteredMaxPrice ? filteredMaxPrice : ''}">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="p-2">
+                        <button type="submit" class="btn btn-dark w-100"><i class="fa-solid fa-filter"></i>&nbsp;Filtriraj</button>
+                    </div>
+                </form>
             </div>
             <div class="col-md-9" id="all-products-wrapper">
                 <div class="row g-2">
-                    <c:set var="totalProductsCount" value="0"/>
+                    <c:choose>
+                        <c:when test="${empty productSearchResults}">
+                            <h6>Nije pronađen niti jedan proizvod</h6>
+                        </c:when>
+                        <c:otherwise>
+                            <div id="products-count-wrapper">
+                                <h6>Pronađeno ${productSearchResults.size()} proizvoda</h6>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+
                     <%--Display products from selected category--%>
-                    <c:forEach items="${category.products}" var="product" varStatus="productCount">
+                    <c:forEach items="${productSearchResults}" var="product" varStatus="productCount">
                         <c:if test="${product.active}">
-                            <c:set var="totalProductsCount" value="${totalProductsCount + 1}"/>
-                            <div class="col-md-4 mt-3 basic-example-item">
+                            <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-3 basic-example-item">
                                 <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="0" productIndex="${productCount.index}"/>
                             </div>
                         </c:if>
                     </c:forEach>
 
-                    <%--Display products from subcategories--%>
-                    <c:forEach items="${category.subCategories}" var="subCategory" varStatus="subCategoryCount">
-                        <c:forEach items="${subCategory.products}" var="product" varStatus="productCount">
-                            <c:if test="${product.active}">
-                                <c:set var="totalProductsCount" value="${totalProductsCount + 1}"/>
-                                <div class="col-md-4 mt-3 basic-example-item">
-                                    <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="${subCategoryCount.index + 1}" productIndex="${productCount.index}"/>
-                                </div>
-                            </c:if>
-                        </c:forEach>
-                    </c:forEach>
-
                     <%--Admin add new product--%>
                     <c:if test="${isUserAdmin}">
-                        <div class="col-md-4 mt-3 basic-example-item" data-bs-toggle="modal" data-bs-target="#addNewProductModal">
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-3 basic-example-item" data-bs-toggle="modal" data-bs-target="#addNewProductModal">
                             <div class="card shadow-2" role="button">
                                 <div class="card-img-top justify-content-center text-center p-3 display-1">
                                     <i class="fa-solid fa-plus"></i>
@@ -120,16 +151,6 @@
                             </div>
                         </div>
                     </c:if>
-                    <c:choose>
-                        <c:when test="${totalProductsCount < 1}">
-                            <h5>Nije pronađen niti jedan proizvod</h5>
-                        </c:when>
-                        <c:otherwise>
-                            <div id="products-count-wrapper">
-                                <h6>Pronađeno ${totalProductsCount} proizvoda</h6>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
                 </div>
             </div>
         </div>

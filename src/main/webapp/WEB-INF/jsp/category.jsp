@@ -12,7 +12,13 @@
                 <form action="/category/${category.id}" method="get" >
                     <h5 class="text-uppercase">Sortiranje</h5>
                     <hr>
-                    <div class="mb-5">TODO</div>
+                    <div class="mb-5">
+                        <select name="sort" class="form-select">
+                            <c:forEach items="${sortTypes}" var="sortType">
+                                <option value="${sortType}" ${chosenSort eq sortType ? 'selected' : ''}>${sortType.description}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
 
                     <h5 class="text-uppercase">Filteri</h5>
                     <hr>
@@ -67,6 +73,11 @@
             </div>
             <div class="col-md-9" id="all-products-wrapper">
                 <div class="row g-2">
+                    <c:choose>
+                        <c:when test="${not empty category}">
+                            <h4>Rezultati pretrage za kategoriju '${category.name}'</h4>
+                        </c:when>
+                    </c:choose>
                     <c:choose>
                         <c:when test="${empty productSearchResults}">
                             <h6>Nije pronađen niti jedan proizvod</h6>

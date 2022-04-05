@@ -1,4 +1,4 @@
-package hr.tvz.diplomski.pios_oorp.service;
+package hr.tvz.diplomski.pios_oorp.util;
 
 import hr.tvz.diplomski.pios_oorp.domain.Brand;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
@@ -23,6 +23,7 @@ public class ProductSearchSpecificationBuilder {
                                                       BigDecimal maxPrice, boolean isOnSale, String searchString) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(productIsActive(root, query, criteriaBuilder));
 
             if (categories != null && !categories.isEmpty()) {
                 predicates.add(productInAnyCategory(root, query, criteriaBuilder, categories));

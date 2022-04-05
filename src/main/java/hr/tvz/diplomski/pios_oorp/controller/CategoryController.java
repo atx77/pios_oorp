@@ -1,9 +1,9 @@
 package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
-import hr.tvz.diplomski.pios_oorp.domain.Brand;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
+import hr.tvz.diplomski.pios_oorp.enumeration.SortType;
 import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +42,7 @@ public class CategoryController {
                                    @RequestParam(value = "minPrice", required = false) final BigDecimal minPrice,
                                    @RequestParam(value = "maxPrice", required = false) final BigDecimal maxPrice,
                                    @RequestParam(value = "isOnSale", required = false, defaultValue = "false") final boolean isOnSale,
+                                   @RequestParam(value = "sort", required = false) final SortType sortType,
                                    Model model) {
         Category category = categoryService.getCategoryById(categoryId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category " + categoryId + " not found!"));
@@ -52,15 +52,17 @@ public class CategoryController {
 
         model.addAttribute("category", category);
         model.addAttribute("title", category.getName());
-        List<Product> products = productService.findAllProductsInCategoryAndFilter(category, brands, minPrice, maxPrice, isOnSale);
+        List<Product> products = productService.findAllProductsInCategoryAndFilter(category, brands, minPrice, maxPrice, isOnSale, sortType);
         model.addAttribute("productSearchResults", products);
         model.addAttribute("productBrands", productService.getBrandsForProducts(products));
         model.addAttribute("addToCartForm", new AddToCartForm());
+        model.addAttribute("sortTypes", SortType.values());
 
         model.addAttribute("filteredBrands", brands != null ? brands.stream().collect(Collectors.joining(";")) : "");
         model.addAttribute("filteredIsOnSale", isOnSale);
         model.addAttribute("filteredMinPrice", minPrice);
         model.addAttribute("filteredMaxPrice", maxPrice);
+        model.addAttribute("chosenSort", sortType != null ? sortType : SortType.DATE_ADDED_DESC);
 
         if (userService.isSessionUserAdmin()) {
             model.addAttribute("addNewProductForm", new AddNewProductForm());

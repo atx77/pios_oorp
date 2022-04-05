@@ -4,8 +4,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="product" type="hr.tvz.diplomski.pios_oorp.domain.Product" required="true" %>
-<%@attribute name="chosenCategory" type="hr.tvz.diplomski.pios_oorp.domain.Category" required="false" %>
-<%@attribute name="categoryIndex" type="java.lang.Integer" required="true" %>
 <%@attribute name="productIndex" type="java.lang.Integer" required="true" %>
 
 <div class="card shadow-2">
@@ -36,9 +34,9 @@
             </c:choose>
         </p>
         <c:if test="${not isUserAdmin}">
-            <form:form action="/cart/add" method="post" modelAttribute="addToCartForm" id="add-to-cart-form-${productIndex}-${categoryIndex}">
-                <form:hidden path="productId" value="${product.id}" id="add-to-cart-form-productid-${productIndex}-${categoryIndex}"/>
-                <form:input type="number" path="quantity" value="1" cssClass="form-control" min="1" max="10" id="add-to-cart-form-${productIndex}-${categoryIndex}"/>
+            <form:form action="/cart/add" method="post" modelAttribute="addToCartForm" id="add-to-cart-form-${productIndex}">
+                <form:hidden path="productId" value="${product.id}" id="add-to-cart-form-productid-${productIndex}"/>
+                <form:input type="number" path="quantity" value="1" cssClass="form-control" min="1" max="10" id="add-to-cart-form-${productIndex}"/>
                 <button type="submit" class="btn btn-primary w-100 my-1"><i class="fa-solid fa-cart-plus"></i>&nbsp;Dodaj u košaricu</button>
             </form:form>
         </c:if>

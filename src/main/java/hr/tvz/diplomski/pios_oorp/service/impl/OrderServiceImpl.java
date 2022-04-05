@@ -53,8 +53,10 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(addressService.createNewAddressForUser(form.getStreet(), form.getCity(),
                 form.getPostcode(), CountryEnum.CROATIA, user));
         order.setCreationDate(new Date());
-        order.setItems(new ArrayList<>());
+        order.setDeliveryMode(form.getDeliveryMode());
+        order.setPaymentMethod(form.getPaymentMethod());
 
+        order.setItems(new ArrayList<>());
         for (CartItem cartItem : cart.getItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -77,6 +79,12 @@ public class OrderServiceImpl implements OrderService {
 
         cartService.clearCart(cart);
         return order;
+    }
+
+    @Override
+    public Order getByCode(String orderCode) {
+        return orderRepository.findByCodeEquals(orderCode)
+                .orElseThrow(() -> new IllegalArgumentException("No order with code " + orderCode));
     }
 
     private BigDecimal calculateTotalPriceForProduct(Product product, Integer quantity) {

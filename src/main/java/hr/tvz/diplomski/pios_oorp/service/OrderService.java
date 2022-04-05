@@ -5,4 +5,5 @@ import hr.tvz.diplomski.pios_oorp.form.CheckoutForm;
 
 public interface OrderService {
     Order createOrderForCurrentUser(CheckoutForm form);
+    Order getByCode(String orderCode);
 }

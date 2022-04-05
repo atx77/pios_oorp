@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center">
-                                <a type="button" class="btn btn-outline-success" href="/order/details/${order.code}">
+                                <a type="button" class="btn btn-outline-success" href="/my-account/order/details/${order.code}">
                                     <i class="fa-solid fa-circle-info"></i>&nbsp;Prikaži detalje
                                 </a>
                             </div>

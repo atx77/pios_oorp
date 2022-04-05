@@ -98,4 +98,18 @@ public class ProductServiceImpl implements ProductService {
     public List<Brand> getBrandsForProducts(List<Product> products) {
         return products.stream().map(Product::getBrand).filter(Objects::nonNull).distinct().collect(Collectors.toList());
     }
+
+    @Override
+    public List<Product> findAllProductsByTextAndFilter(String searchText, List<String> brandNames, BigDecimal minPrice, BigDecimal maxPrice, boolean isOnSale, SortType sortType) {
+        List<Brand> brands = new ArrayList<>();
+        if (brandNames != null) {
+            brands = brandService.getBrandsForNames(brandNames);
+        }
+
+        Specification<Product> productSpecification = productSearchSpecificationBuilder.build(null,
+                brands, minPrice, maxPrice, isOnSale, searchText);
+        Sort sort = productSearchSortBuilder.build(sortType);
+
+        return productRepository.findAll(productSpecification, sort);
+    }
 }

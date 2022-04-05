@@ -9,7 +9,18 @@
     <div class="container-fluid mt-5 mb-5">
         <div class="row g-2">
             <div class="col-md-3">
-                <form action="/category/${category.id}" method="get" >
+                <c:choose>
+                    <c:when test="${not empty category}">
+                        <c:set var="targetUrl" value="/category/${category.id}" scope="page"/>
+                    </c:when>
+                    <c:when test="${not empty searchText}">
+                        <c:set var="targetUrl" value="/search" scope="page"/>
+                    </c:when>
+                </c:choose>
+                <form action="${targetUrl}" method="get" >
+                    <c:if test="${not empty searchText}">
+                        <input type="hidden" value="${searchText}" name="text">
+                    </c:if>
                     <h5 class="text-uppercase">Sortiranje</h5>
                     <hr>
                     <div class="mb-5">
@@ -77,6 +88,9 @@
                         <c:when test="${not empty category}">
                             <h4>Rezultati pretrage za kategoriju '${category.name}'</h4>
                         </c:when>
+                        <c:when test="${not empty searchText}">
+                            <h4>Rezultati pretrage za tekst '${searchText}'</h4>
+                        </c:when>
                     </c:choose>
                     <c:choose>
                         <c:when test="${empty productSearchResults}">
@@ -89,17 +103,17 @@
                         </c:otherwise>
                     </c:choose>
 
-                    <%--Display products from selected category--%>
+                    <%--Display products--%>
                     <c:forEach items="${productSearchResults}" var="product" varStatus="productCount">
                         <c:if test="${product.active}">
                             <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-3 basic-example-item">
-                                <tags:productGridItem product="${product}" chosenCategory="${category}" categoryIndex="0" productIndex="${productCount.index}"/>
+                                <tags:productGridItem product="${product}" productIndex="${productCount.index}"/>
                             </div>
                         </c:if>
                     </c:forEach>
 
                     <%--Admin add new product--%>
-                    <c:if test="${isUserAdmin}">
+                    <c:if test="${isUserAdmin and not empty category}">
                         <div class="col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-3 basic-example-item" data-bs-toggle="modal" data-bs-target="#addNewProductModal">
                             <div class="card shadow-2" role="button">
                                 <div class="card-img-top justify-content-center text-center p-3 display-1">

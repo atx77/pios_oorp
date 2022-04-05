@@ -67,6 +67,9 @@ public class OrderServiceImpl implements OrderService {
             orderItemRepository.save(orderItem);
             order.getItems().add(orderItem);
         }
+        order.setTotalPrice(order.getItems().stream()
+                .map(OrderItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
         orderRepository.save(order);
 
         order.setCode(StringUtils.leftPad(order.getId().toString(), 6, "0"));

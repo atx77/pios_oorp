@@ -9,4 +9,5 @@ public interface UserService {
     boolean isSessionUserAdmin();
     boolean isSessionUserGuest();
     boolean isSessionUserCustomer();
+    void updateUserPersonalInformation(String firstName, String lastName, String password);
 }

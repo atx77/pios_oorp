@@ -57,7 +57,7 @@
 
                         <c:if test="${not empty loggedUser}">
                             <c:if test="${isUserCustomer}">
-                                <a href="/my-profile" class="btn btn-outline-light"><i class="fa-solid fa-circle-user me-2"></i>&nbsp;Moj profil</a>
+                                <a href="/my-account" class="btn btn-outline-light"><i class="fa-solid fa-circle-user me-2"></i>&nbsp;Moj profil</a>
                             </c:if>
                             <a href="/logout" class="btn btn-outline-light"><i class="fa-solid fa-right-from-bracket me-2"></i>Odjavi se</a>
                         </c:if>

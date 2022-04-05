@@ -7,6 +7,7 @@ import hr.tvz.diplomski.pios_oorp.form.RegisterForm;
 import hr.tvz.diplomski.pios_oorp.repository.CartRepository;
 import hr.tvz.diplomski.pios_oorp.repository.UserRepository;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,6 +67,21 @@ public class UserServiceImpl implements UserService {
     public boolean isSessionUserCustomer() {
         User user = getLoggedUser();
         return user != null && UserType.CUSTOMER.equals(user.getType());
+    }
+
+    @Override
+    public void updateUserPersonalInformation(String firstName, String lastName, String password) {
+        User user = getLoggedUser();
+        if (StringUtils.isNotBlank(firstName)) {
+            user.setFirstName(firstName);
+        }
+        if (StringUtils.isNotBlank(lastName)) {
+            user.setLastName(lastName);
+        }
+        if (StringUtils.isNotBlank(password)) {
+            user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(10)));
+        }
+        userRepository.save(user);
     }
 
     private String getLoggedUserUsername() {

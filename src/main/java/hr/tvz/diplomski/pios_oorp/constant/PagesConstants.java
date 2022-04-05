@@ -11,4 +11,6 @@ public class PagesConstants {
     public static final String CART = "cart";
     public static final String CHECKOUT = "checkout";
     public static final String SEARCH = "productList";
+    public static final String MY_ACCOUNT = "myAccount";
+    public static final String ORDER_DETAILS = "orderDetails";
 }

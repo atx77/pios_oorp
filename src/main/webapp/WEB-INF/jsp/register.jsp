@@ -12,17 +12,17 @@
             </div>
 
             <div class="form-outline mb-4">
-                <label class="form-label" for="password-input">Ime</label>
+                <label class="form-label" for="first-name-input">Ime</label>
                 <form:input path="firstName" id="first-name-input" cssClass="form-control"/>
             </div>
 
             <div class="form-outline mb-4">
-                <label class="form-label" for="email-input">Prezime</label>
+                <label class="form-label" for="last-name-input">Prezime</label>
                 <form:input path="lastName" id="last-name-input" cssClass="form-control"/>
             </div>
 
             <div class="form-outline mb-4">
-                <label class="form-label" for="email-input">Lozinka</label>
+                <label class="form-label" for="password-input">Lozinka</label>
                 <form:password path="password" id="password-input" cssClass="form-control"/>
             </div>
 

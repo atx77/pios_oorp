@@ -57,8 +57,8 @@ public class CartController {
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     public RedirectView createOrder(@Valid @ModelAttribute("checkoutForm")CheckoutForm form,
                                     RedirectAttributes redirectAttributes) {
-        final RedirectView redirectView = new RedirectView("/");
         Order order = orderService.createOrderForCurrentUser(form);
+        final RedirectView redirectView = new RedirectView("/my-account/order/details/" + order.getCode());
         redirectAttributes.addFlashAttribute("alertMessage",
                 new AlertMessage(MessageFormat.format("Uspješno ste napravili narudžbu br. {0}", order.getCode()),
                         AlertType.SUCCESS)

@@ -20,6 +20,8 @@ public class Address {
     private String street;
     private String city;
     private String postcode;
+
+    @Enumerated(EnumType.STRING)
     private CountryEnum country;
 
     @ManyToOne

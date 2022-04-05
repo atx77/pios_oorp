@@ -1,5 +1,7 @@
 package hr.tvz.diplomski.pios_oorp.domain;
 
+import hr.tvz.diplomski.pios_oorp.enumeration.DeliveryMode;
+import hr.tvz.diplomski.pios_oorp.enumeration.PaymentMethod;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +35,11 @@ public class Order {
     private User user;
 
     private Date creationDate;
-
     private BigDecimal totalPrice;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryMode deliveryMode;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 }

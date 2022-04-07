@@ -1,7 +1,9 @@
 package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
-import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
+import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
+import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
+import hr.tvz.diplomski.pios_oorp.form.AddOrEditProductForm;
 import hr.tvz.diplomski.pios_oorp.form.admin.AddCategoryAdminForm;
 import hr.tvz.diplomski.pios_oorp.form.admin.CategoryVisibilityAdminForm;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
@@ -12,10 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.MessageFormat;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -49,9 +53,20 @@ public class AdminController {
         return new RedirectView("/", true);
     }
 
-    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
-    public RedirectView addNewProduct(@Valid @ModelAttribute("addNewProductForm")AddNewProductForm form) {
-        productService.createNewProduct(form);
-        return new RedirectView("/category/" + form.getCategoryId(), true);
+    @RequestMapping(value = "/product/add-edit", method = RequestMethod.POST)
+    public RedirectView addNewProductOrditExisting(@Valid @ModelAttribute("addNewProductForm") AddOrEditProductForm form,
+                                                   RedirectAttributes redirectAttributes) {
+        productService.createNewOrEditProductIfExists(form);
+        if (form.getCategoryId() != null) {
+            redirectAttributes.addFlashAttribute("alertMessage",
+                    new AlertMessage("Uspješno ste dodali novi proizvod", AlertType.SUCCESS));
+            return new RedirectView("/category/" + form.getCategoryId(), true);
+        } else if (form.getProductId() != null) {
+            redirectAttributes.addFlashAttribute("alertMessage",
+                    new AlertMessage("Uspješno ste uredili proizvod", AlertType.SUCCESS));
+            return new RedirectView("/product/" + form.getProductId(), true);
+        } else {
+            return new RedirectView("/");
+        }
     }
 }

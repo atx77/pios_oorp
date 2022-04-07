@@ -2,13 +2,11 @@ package hr.tvz.diplomski.pios_oorp.form;
 
 import lombok.Data;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
-public class AddNewProductForm {
+public class AddOrEditProductForm {
 
     @NotNull
     private Long categoryId;
@@ -33,4 +31,8 @@ public class AddNewProductForm {
 
     @NotNull
     private String brand;
+
+    private boolean active;
+
+    private Long productId;
 }

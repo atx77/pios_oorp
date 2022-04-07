@@ -1,10 +1,12 @@
 package hr.tvz.diplomski.pios_oorp.service.impl;
 
 import hr.tvz.diplomski.pios_oorp.domain.Cart;
+import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.domain.User;
 import hr.tvz.diplomski.pios_oorp.enumeration.UserType;
 import hr.tvz.diplomski.pios_oorp.form.RegisterForm;
 import hr.tvz.diplomski.pios_oorp.repository.CartRepository;
+import hr.tvz.diplomski.pios_oorp.repository.OrderRepository;
 import hr.tvz.diplomski.pios_oorp.repository.UserRepository;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private CartRepository cartRepository;
+
+    @Resource
+    private OrderRepository orderRepository;
 
     @Override
     public User getLoggedUser() {
@@ -82,6 +87,11 @@ public class UserServiceImpl implements UserService {
             user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt(10)));
         }
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean hasUserBoughtProduct(User user, Product product) {
+        return !orderRepository.findAllByUserEqualsAndItems_ProductEquals(user, product).isEmpty();
     }
 
     private String getLoggedUserUsername() {

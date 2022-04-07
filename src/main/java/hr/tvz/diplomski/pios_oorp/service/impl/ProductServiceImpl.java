@@ -4,7 +4,7 @@ import hr.tvz.diplomski.pios_oorp.domain.Brand;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.enumeration.SortType;
-import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
+import hr.tvz.diplomski.pios_oorp.form.AddOrEditProductForm;
 import hr.tvz.diplomski.pios_oorp.repository.ProductRepository;
 import hr.tvz.diplomski.pios_oorp.service.BrandService;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
@@ -50,16 +50,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Product createNewProduct(AddNewProductForm productForm) {
-        Assert.notNull(productForm.getCategoryId());
+    public Product createNewOrEditProductIfExists(AddOrEditProductForm productForm) {
         Assert.notNull(productForm.getName());
         Assert.notNull(productForm.getRegularPrice());
 
-        Category category = categoryService.getCategoryById(productForm.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category " + productForm.getCategoryId() + "does not exist!"));
+        Category category = productForm.getCategoryId() != null ? categoryService.getCategoryById(productForm.getCategoryId())
+                .orElseThrow(() -> new IllegalArgumentException("Category " + productForm.getCategoryId() + "does not exist!")) : null;
+        Product existingProduct = productForm.getProductId() != null ? productRepository.getById(productForm.getProductId()) : null;
 
         Product product = new Product();
-        product.setCategory(category);
+        if (existingProduct != null) {
+            product = existingProduct;
+        } else {
+            product.setCategory(category);
+            product.setCreationDate(new Date());
+        }
+
         product.setName(productForm.getName());
         product.setDescription(productForm.getDescription());
         product.setSummary(productForm.getSummary());
@@ -67,10 +73,9 @@ public class ProductServiceImpl implements ProductService {
         product.setActionPrice(productForm.getActionPrice());
         product.setDiscountPercentage(priceUtils.calculateDiscountPercentage(productForm.getRegularPrice(), productForm.getActionPrice()));
         product.setAvailableQuantity(1000);
-        product.setActive(true);
+        product.setActive(productForm.isActive());
         product.setImageUrl(productForm.getImageUrl());
         product.setBrand(brandService.getBrandAndCreateNewIfNotExists(productForm.getBrand()));
-        product.setCreationDate(new Date());
         productRepository.save(product);
         return product;
     }

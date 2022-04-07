@@ -126,15 +126,14 @@
                             </div>
                         </div>
 
-
-                        <div class="modal fade" id="addNewProductModal" tabindex="-1" aria-labelledby="addNewProductModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="addNewProductModal" aria-labelledby="addNewProductModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="addNewProductModalLabel">Dodaj novi proizvod</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <form:form action="/admin/product/add" method="post" modelAttribute="addNewProductForm">
+                                    <form:form action="/admin/product/add-edit" method="post" modelAttribute="addNewProductForm">
                                     <div class="modal-body">
                                             <form:hidden path="categoryId" value="${category.id}"/>
                                             <div class="mb-3">
@@ -165,7 +164,17 @@
                                                 <label for="brand" class="col-form-label">Brand:</label>
                                                 <form:input path="brand" cssClass="form-control"/>
                                             </div>
-
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Aktivan:</label>
+                                                <div class="form-check">
+                                                    <label for="active-true" class="col-form-label">DA</label>
+                                                    <form:radiobutton path="active" name="active" id="active-true" value="true" checked="checked" required="required" cssClass="form-check-input"/>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label for="active-false" class="col-form-label">NE</label>
+                                                    <form:radiobutton path="active" name="active" id="active-false" value="false" required="required" cssClass="form-check-input"/>
+                                                </div>
+                                            </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i>&nbsp;Odustani</button>

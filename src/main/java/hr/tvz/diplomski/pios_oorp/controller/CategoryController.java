@@ -4,7 +4,7 @@ import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Category;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.enumeration.SortType;
-import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
+import hr.tvz.diplomski.pios_oorp.form.AddOrEditProductForm;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
 import hr.tvz.diplomski.pios_oorp.service.ProductService;
@@ -65,7 +65,7 @@ public class CategoryController {
         model.addAttribute("chosenSort", sortType != null ? sortType : SortType.DATE_ADDED_DESC);
 
         if (userService.isSessionUserAdmin()) {
-            model.addAttribute("addNewProductForm", new AddNewProductForm());
+            model.addAttribute("addNewProductForm", new AddOrEditProductForm());
         }
 
         return PagesConstants.CATEGORY;

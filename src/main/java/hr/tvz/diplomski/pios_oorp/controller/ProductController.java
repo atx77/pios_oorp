@@ -4,6 +4,7 @@ import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
 import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
+import hr.tvz.diplomski.pios_oorp.form.AddOrEditProductForm;
 import hr.tvz.diplomski.pios_oorp.form.AddRecensionForm;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
 import hr.tvz.diplomski.pios_oorp.service.ProductService;
@@ -44,6 +45,10 @@ public class ProductController {
         model.addAttribute("addToCartForm", new AddToCartForm());
         model.addAttribute("addRecensionForm", new AddRecensionForm());
         model.addAttribute("userHasBoughtProduct", userService.hasUserBoughtProduct(userService.getLoggedUser(), product));
+
+        if (userService.isSessionUserAdmin()) {
+            model.addAttribute("editProductForm", new AddOrEditProductForm());
+        }
         return PagesConstants.PRODUCT;
     }
 

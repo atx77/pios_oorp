@@ -5,6 +5,75 @@
 <%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <template:wrapper>
+    <%--Admin add new product--%>
+    <c:if test="${isUserAdmin}">
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                <h5 class="card-title text-center"><i class="fa-solid fa-pen"></i>&nbsp;Uredi ovaj proizvod</h5>
+            </button>
+        </div>
+        <hr>
+        <div class="modal fade" id="editProductModal" aria-labelledby="editProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProductModalLabel">Uredi ovaj proizvod</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form:form action="/admin/product/add-edit" method="post" modelAttribute="editProductForm">
+                        <div class="modal-body">
+                            <form:hidden path="productId" value="${product.id}"/>
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Naziv:</label>
+                                <form:input path="name" cssClass="form-control" value="${product.name}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="col-form-label">Opis:</label>
+                                <form:textarea path="description" cssClass="form-control" value="${product.description}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="summary" class="col-form-label">Kratki opis:</label>
+                                <form:textarea path="summary" cssClass="form-control" value="${product.summary}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="regularPrice" class="col-form-label">Redovna cijena:</label>
+                                <form:input path="regularPrice" type="number" cssClass="form-control" min="0.01" step="0.01" value="${product.regularPrice}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="actionPrice" class="col-form-label">Akcijska cijena(opcionalno):</label>
+                                <form:input path="actionPrice" type="number" cssClass="form-control" min="0.01" step="0.01" value="${product.actionPrice}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imageUrl" class="col-form-label">URL slike:</label>
+                                <form:input path="imageUrl" cssClass="form-control" value="${product.imageUrl}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="brand" class="col-form-label">Brand:</label>
+                                <form:input path="brand" cssClass="form-control" value="${product.brand.name}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="col-form-label">Aktivan:</label>
+                                <div class="form-check">
+                                    <label for="active-true" class="form-check-label">DA</label>
+                                    <form:radiobutton path="active" name="active" id="active-true" value="true" required="required" cssClass="form-check-input"/>
+                                </div>
+                                <div class="form-check">
+                                    <label for="active-false" class="form-check-label">NE</label>
+                                    <form:radiobutton path="active" name="active" id="active-false" value="false" required="required" cssClass="form-check-input"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i>&nbsp;Odustani</button>
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-plus"></i>&nbsp;Spremi promjene</button>
+                        </div>
+                    </form:form>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+
     <div class="row">
         <div class="col-md-6 border-end">
             <img src="${product.imageUrl}"/>
@@ -43,7 +112,7 @@
                 </c:choose>
             </div>
             <div class="my-3">
-                <p>${product.recensions.size()} recenzija</p>
+                <a href="#recensions-wrapper" class="text-decoration-none text-dark">${product.recensions.size()} recenzija</a>
             </div>
             <div class="my-3">
                 <c:if test="${not isUserAdmin}">
@@ -71,7 +140,7 @@
         <h4>Recenzije</h4>
     </div>
     <hr>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" id="recensions-wrapper">
         <div class="col-md-9">
             <c:if test="${userHasBoughtProduct}">
                 <form:form action="/product/recension/add" method="post" modelAttribute="addRecensionForm" id="add-recension-form">
@@ -89,7 +158,7 @@
                         <div class="list-group mb-2">
                             <div class="list-group-item list-group-item-action">
                                 <div class="d-flex w-100 justify-content-between border-bottom">
-                                    <h5 class="mb-1">${recension.user.firstName}</h5>
+                                    <h6 class="mb-1">${recension.user.firstName}</h6>
                                     <small class="text-muted">${recension.creationDate}</small>
                                 </div>
                                 <p class="mb-1">${recension.text}</p>

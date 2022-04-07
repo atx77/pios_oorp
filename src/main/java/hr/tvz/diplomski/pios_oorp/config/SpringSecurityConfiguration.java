@@ -30,6 +30,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/cart/**").hasRole(UserType.CUSTOMER.name())
                     .antMatchers("/my-account/order/details/**").hasAnyRole(UserType.CUSTOMER.name(), UserType.ADMIN.name())
                     .antMatchers("/my-account/**").hasRole(UserType.CUSTOMER.name())
+                    .antMatchers("/product/recension/add").hasRole(UserType.CUSTOMER.name())
                 .and()
                     .formLogin()
                     .loginPage("/login")

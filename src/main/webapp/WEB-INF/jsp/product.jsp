@@ -61,16 +61,44 @@
         <h4>Opis proizvoda</h4>
     </div>
     <hr>
-    <div>
-        ${product.description}
+    <div class="d-flex justify-content-center">
+        <div class="col-md-9">
+            ${product.description}
+        </div>
     </div>
 
     <div class="row d-flex justify-content-center text-center mt-5">
         <h4>Recenzije</h4>
     </div>
     <hr>
-    <div>
-        recenzije
+    <div class="d-flex justify-content-center">
+        <div class="col-md-9">
+            <c:if test="${userHasBoughtProduct}">
+                <form:form action="/product/recension/add" method="post" modelAttribute="addRecensionForm" id="add-recension-form">
+                    <form:hidden path="productId" value="${product.id}" id="add-recension-form-productid}"/>
+                    <form:textarea path="text" cssClass="form-control" id="add-recension-form-text" required="required"/>
+                    <button type="submit" class="btn btn-primary w-100 my-1"><i class="fa-solid fa-comment-plus"></i>&nbsp;Ostavi recenziju</button>
+                </form:form>
+            </c:if>
+            <c:choose>
+                <c:when test="${empty product.recensions}">
+                    <h6>Nema recenzija</h6>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${product.recensions}" var="recension">
+                        <div class="list-group mb-2">
+                            <div class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between border-bottom">
+                                    <h5 class="mb-1">${recension.user.firstName}</h5>
+                                    <small class="text-muted">${recension.creationDate}</small>
+                                </div>
+                                <p class="mb-1">${recension.text}</p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
+        </div>
     </div>
 </template:wrapper>
 

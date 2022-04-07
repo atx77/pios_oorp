@@ -1,14 +1,13 @@
 package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
-import hr.tvz.diplomski.pios_oorp.domain.Order;
 import hr.tvz.diplomski.pios_oorp.domain.Product;
 import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
 import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
+import hr.tvz.diplomski.pios_oorp.form.AddRecensionForm;
 import hr.tvz.diplomski.pios_oorp.form.AddToCartForm;
-import hr.tvz.diplomski.pios_oorp.form.UpdateProfileForm;
-import hr.tvz.diplomski.pios_oorp.service.OrderService;
 import hr.tvz.diplomski.pios_oorp.service.ProductService;
+import hr.tvz.diplomski.pios_oorp.service.RecensionService;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +29,12 @@ public class ProductController {
     @Resource
     private ProductService productService;
 
+    @Resource
+    private RecensionService recensionService;
+
+    @Resource
+    private UserService userService;
+
     @RequestMapping(value = "/{productId}", method = RequestMethod.GET)
     public String viewProductPage(@PathVariable("productId")Long productId, Model model) {
         Product product = productService.getProductForId(productId)
@@ -37,6 +42,22 @@ public class ProductController {
         model.addAttribute("title", product.getName());
         model.addAttribute("product", product);
         model.addAttribute("addToCartForm", new AddToCartForm());
+        model.addAttribute("addRecensionForm", new AddRecensionForm());
+        model.addAttribute("userHasBoughtProduct", userService.hasUserBoughtProduct(userService.getLoggedUser(), product));
         return PagesConstants.PRODUCT;
+    }
+
+    @RequestMapping(value = "/recension/add", method = RequestMethod.POST)
+    public RedirectView addNewRecension(@Valid @ModelAttribute("addRecensionForm") AddRecensionForm form,
+                                         RedirectAttributes redirectAttributes) {
+        final RedirectView redirectView = new RedirectView("/product/" + form.getProductId(), true);
+        Product product = productService.getProductForId(form.getProductId())
+                        .orElseThrow(IllegalAccessError::new);
+        recensionService.addNewRecensionForProduct(product, form.getText(), userService.getLoggedUser());
+        redirectAttributes.addFlashAttribute("alertMessage",
+                new AlertMessage(MessageFormat.format("Uspješno ste ostavili recenziju za proizvod \"{0}\"", product.getName()),
+                        AlertType.SUCCESS)
+        );
+        return redirectView;
     }
 }

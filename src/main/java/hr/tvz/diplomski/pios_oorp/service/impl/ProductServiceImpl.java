@@ -117,4 +117,9 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findAll(productSpecification, sort);
     }
+
+    @Override
+    public List<Product> findNewestProducts() {
+        return productRepository.findTop10ByOrderByCreationDateDesc();
+    }
 }

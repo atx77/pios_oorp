@@ -1,9 +1,10 @@
-package hr.tvz.diplomski.pios_oorp.form;
+package hr.tvz.diplomski.pios_oorp.controller;
 
 import hr.tvz.diplomski.pios_oorp.constant.PagesConstants;
 import hr.tvz.diplomski.pios_oorp.domain.Order;
 import hr.tvz.diplomski.pios_oorp.dto.AlertMessage;
 import hr.tvz.diplomski.pios_oorp.enumeration.AlertType;
+import hr.tvz.diplomski.pios_oorp.form.UpdateProfileForm;
 import hr.tvz.diplomski.pios_oorp.service.OrderService;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class AccountController {
     public String viewMyAccountPage(Model model) {
         model.addAttribute("title", "Moj profil");
         model.addAttribute("updateProfileForm", new UpdateProfileForm());
+        model.addAttribute("orders", orderService.getOrdersForCustomer(userService.getLoggedUser()));
         return PagesConstants.MY_ACCOUNT;
     }
 
@@ -49,8 +51,12 @@ public class AccountController {
     @RequestMapping(value = "/order/details/{orderCode}", method = RequestMethod.GET)
     public String viewMyAccountOrderDetailsPage(@PathVariable("orderCode") final String orderCode, Model model) {
         Order order = orderService.getByCode(orderCode);
+        if (!userService.isSessionUserAdmin() && !userService.getLoggedUser().equals(order.getUser())) {
+            return PagesConstants.ERROR_404;
+        }
         model.addAttribute("order", order);
         model.addAttribute("title", MessageFormat.format("Pregled narudžbe {0}", order.getCode()));
         return PagesConstants.ORDER_DETAILS;
+
     }
 }

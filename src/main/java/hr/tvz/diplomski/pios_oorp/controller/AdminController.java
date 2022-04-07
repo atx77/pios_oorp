@@ -5,6 +5,7 @@ import hr.tvz.diplomski.pios_oorp.form.AddNewProductForm;
 import hr.tvz.diplomski.pios_oorp.form.admin.AddCategoryAdminForm;
 import hr.tvz.diplomski.pios_oorp.form.admin.CategoryVisibilityAdminForm;
 import hr.tvz.diplomski.pios_oorp.service.CategoryService;
+import hr.tvz.diplomski.pios_oorp.service.OrderService;
 import hr.tvz.diplomski.pios_oorp.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +27,13 @@ public class AdminController {
     @Resource
     private ProductService productService;
 
+    @Resource
+    private OrderService orderService;
+
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String viewAdminHomepage(Model model) {
-        model.addAttribute("title", "admin homepage");
+        model.addAttribute("title", "Pregled korisničkih narudžbi");
+        model.addAttribute("orders", orderService.getAllOrders());
         return PagesConstants.ADMIN_HOMEPAGE;
     }
 

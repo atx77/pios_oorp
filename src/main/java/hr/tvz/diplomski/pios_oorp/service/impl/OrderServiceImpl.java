@@ -11,6 +11,7 @@ import hr.tvz.diplomski.pios_oorp.service.OrderService;
 import hr.tvz.diplomski.pios_oorp.service.UserService;
 import hr.tvz.diplomski.pios_oorp.util.PriceUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -85,6 +87,16 @@ public class OrderServiceImpl implements OrderService {
     public Order getByCode(String orderCode) {
         return orderRepository.findByCodeEquals(orderCode)
                 .orElseThrow(() -> new IllegalArgumentException("No order with code " + orderCode));
+    }
+
+    @Override
+    public List<Order> getOrdersForCustomer(User user) {
+        return orderRepository.findAllByUserEqualsOrderByCreationDateDesc(user);
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll(Sort.by(Sort.Direction.DESC, Order_.CREATION_DATE));
     }
 
     private BigDecimal calculateTotalPriceForProduct(Product product, Integer quantity) {

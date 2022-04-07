@@ -5,10 +5,28 @@
 <%@taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <template:wrapper>
-    <div><h3>Pregled narudžbe br. ${order.code}</h3></div>
+    <div class="d-flex justify-content-between">
+        <div><h3>Pregled narudžbe br. ${order.code}</h3></div>
+        <div class="text-end">
+            <c:choose>
+                <c:when test="${isUserAdmin}">
+                    <a href="/admin/home" class="btn btn-outline-primary"><i class="fa-solid fa-caret-left"></i>&nbsp;Povratak na listu narudžbi</a>
+                </c:when>
+                <c:when test="${isUserCustomer}">
+                    <a href="/my-account" class="btn btn-outline-primary"><i class="fa-solid fa-caret-left"></i>&nbsp;Povratak na profil</a>
+                </c:when>
+            </c:choose>
+        </div>
+    </div>
     <hr>
         <div class="d-flex justify-content-between">
             <div style="width:400px;">
+                <c:if test="${isUserAdmin}">
+                    <div class="row">
+                        <div class="col-md-6 fw-bolder">Kupac:</div>
+                        <div class="col-md-6">${order.user.firstName}&nbsp;${order.user.lastName} (${order.user.email})</div>
+                    </div>
+                </c:if>
                 <div class="row">
                     <div class="col-md-6 fw-bolder">Broj narudžbe:</div>
                     <div class="col-md-6">${order.code}</div>
@@ -69,7 +87,7 @@
                                 <c:choose>
                                     <c:when test="${not (orderItem.sellingPrice eq orderItem.regularPrice)}">
                                             <span class="text-decoration-line-through me-1">
-                                                <fmt:formatNumber value="${orderItem.sellingPrice}" type="currency" currencySymbol="${currencySymbol}"/>
+                                                <fmt:formatNumber value="${orderItem.regularPrice}" type="currency" currencySymbol="${currencySymbol}"/>
                                             </span>
                                         <c:if test="${not empty orderItem.discountPercentage}">
                                             <span class="me-2 text-success">(-${orderItem.discountPercentage}%)</span>

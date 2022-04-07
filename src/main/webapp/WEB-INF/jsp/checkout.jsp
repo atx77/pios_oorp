@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between">
         <div><h3>Naplata</h3></div>
         <div class="text-end">
-            <a href="/cart" class="btn btn-outline-primary btn-lg"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Povratak u košaricu</a>
+            <a href="/cart" class="btn btn-outline-primary"><i class="fa-solid fa-caret-left"></i>&nbsp;Povratak u košaricu</a>
         </div>
     </div>
     <hr>

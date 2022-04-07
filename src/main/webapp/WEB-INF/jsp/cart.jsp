@@ -10,10 +10,10 @@
         <div class="text-end">
             <c:choose>
                 <c:when test="${loggedUser.cart.items.size() < 1}">
-                    <a href="/cart/checkout" class="btn btn-primary btn-lg disabled">Nastavi na plaćanje</a>
+                    <a href="/cart/checkout" class="btn btn-primary btn-lg disabled">Nastavi na plaćanje&nbsp;<i class="fa-solid fa-caret-right"></i></a>
                 </c:when>
                 <c:otherwise>
-                    <a href="/cart/checkout" class="btn btn-primary btn-lg">Nastavi na plaćanje</a>
+                    <a href="/cart/checkout" class="btn btn-primary btn-lg">Nastavi na plaćanje&nbsp;<i class="fa-solid fa-caret-right"></i></a>
                 </c:otherwise>
             </c:choose>
         </div>
@@ -30,11 +30,15 @@
                         <div class="d-flex justify-content-between">
                             <div class="d-flex justify-content-center align-items-center">
                                 <div class="img-wrapper-product-list">
-                                    <img class="img-thumbnail img-product-list" src="${cartItem.product.imageUrl}">
+                                    <a class="text-decoration-none text-dark" href="/product/${cartItem.product.id}">
+                                        <img class="img-thumbnail img-product-list" src="${cartItem.product.imageUrl}">
+                                    </a>
                                 </div>
                             </div>
                             <div class="justify-content-center ms-3">
-                                <h5 class="mb-2">${cartItem.product.name}</h5>
+                                <a class="text-decoration-none text-dark" href="/product/${cartItem.product.id}">
+                                    <h5 class="mb-2">${cartItem.product.name}</h5>
+                                </a>
                                 <div class="mb-2">
                                     <c:choose>
                                         <c:when test="${not empty cartItem.product.actionPrice}">
@@ -92,7 +96,7 @@
                     Ukupno:&nbsp;<fmt:formatNumber value="${loggedUser.cart.totalPrice}" type="currency" currencySymbol="${currencySymbol}"/>
                 </h3>
                 <div class="text-end">
-                    <a href="/cart/checkout" class="btn btn-primary btn-lg">Nastavi na plaćanje</a>
+                    <a href="/cart/checkout" class="btn btn-primary btn-lg">Nastavi na plaćanje&nbsp;<i class="fa-solid fa-caret-right"></i></a>
                 </div>
             </div>
         </c:otherwise>

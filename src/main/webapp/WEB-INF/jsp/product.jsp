@@ -76,7 +76,7 @@
 
     <div class="row">
         <div class="col-md-6 border-end">
-            <img src="${product.imageUrl}"/>
+            <img src="${product.imageUrl}" class="w-100"/>
         </div>
         <div class="col-md-6">
             <div class="my-3">

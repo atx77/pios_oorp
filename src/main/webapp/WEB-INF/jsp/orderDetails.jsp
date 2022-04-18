@@ -40,6 +40,10 @@
                     <div class="col-md-6">${order.paymentMethod.description}</div>
                 </div>
                 <div class="row">
+                    <div class="col-md-6 fw-bolder">Način dostave:</div>
+                    <div class="col-md-6">${order.deliveryMode.description}</div>
+                </div>
+                <div class="row">
                     <div class="col-md-6 fw-bolder">Ukupna cijena:</div>
                     <div class="col-md-6"><h5><fmt:formatNumber value="${order.totalPrice}" type="currency" currencySymbol="${currencySymbol}"/></h5></div>
                 </div>

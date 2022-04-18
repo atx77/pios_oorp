@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+}
+
+#main-body-content {
+    padding: 20px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.img-wrapper-product-list {
+    width: 100px;
+    max-height: 150px;
+    overflow: hidden;
+}

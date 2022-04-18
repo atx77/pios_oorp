@@ -25,11 +25,11 @@
                             <form:hidden path="productId" value="${product.id}"/>
                             <div class="mb-3">
                                 <label for="name" class="col-form-label">Naziv:</label>
-                                <form:input path="name" cssClass="form-control" value="${product.name}"/>
+                                <form:input path="name" cssClass="form-control" value="${product.name}" required="true"/>
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="col-form-label">Opis:</label>
-                                <form:textarea path="description" cssClass="form-control" value="${product.description}"/>
+                                <form:textarea path="description" cssClass="form-control" value="${product.description}" required="true"/>
                             </div>
                             <div class="mb-3">
                                 <label for="summary" class="col-form-label">Kratki opis:</label>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="regularPrice" class="col-form-label">Redovna cijena:</label>
-                                <form:input path="regularPrice" type="number" cssClass="form-control" min="0.01" step="0.01" value="${product.regularPrice}"/>
+                                <form:input path="regularPrice" type="number" cssClass="form-control" min="0.01" step="0.01" value="${product.regularPrice}" required="true"/>
                             </div>
                             <div class="mb-3">
                                 <label for="actionPrice" class="col-form-label">Akcijska cijena(opcionalno):</label>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="imageUrl" class="col-form-label">URL slike:</label>
-                                <form:input path="imageUrl" cssClass="form-control" value="${product.imageUrl}"/>
+                                <form:input path="imageUrl" cssClass="form-control" value="${product.imageUrl}" required="true"/>
                             </div>
                             <div class="mb-3">
                                 <label for="brand" class="col-form-label">Brand:</label>

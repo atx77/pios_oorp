@@ -15,12 +15,12 @@
         <form:form action="/login" method="post" modelAttribute="loginForm" cssStyle="width: 25rem;">
             <div class="form-outline mb-4">
                 <label class="form-label" for="email-input">E-mail addresa</label>
-                <form:input path="username" id="email-input" cssClass="form-control"/>
+                <form:input path="username" id="email-input" cssClass="form-control" required="true"/>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="password-input">Lozinka</label>
-                <form:password path="password" id="password-input" cssClass="form-control"/>
+                <form:password path="password" id="password-input" cssClass="form-control" required="true"/>
             </div>
 
             <div class="row mb-4">

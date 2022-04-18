@@ -8,22 +8,22 @@
         <form:form action="/register" method="post" modelAttribute="registerForm" cssStyle="width: 25rem;">
             <div class="form-outline mb-4">
                 <label class="form-label" for="email-input">E-mail addresa</label>
-                <form:input path="email" id="email-input" cssClass="form-control"/>
+                <form:input path="email" id="email-input" cssClass="form-control" required="true"/>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="first-name-input">Ime</label>
-                <form:input path="firstName" id="first-name-input" cssClass="form-control"/>
+                <form:input path="firstName" id="first-name-input" cssClass="form-control" required="true"/>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="last-name-input">Prezime</label>
-                <form:input path="lastName" id="last-name-input" cssClass="form-control"/>
+                <form:input path="lastName" id="last-name-input" cssClass="form-control" required="true"/>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="password-input">Lozinka</label>
-                <form:password path="password" id="password-input" cssClass="form-control"/>
+                <form:password path="password" id="password-input" cssClass="form-control" required="true"/>
             </div>
 
             <div class="row mb-4">

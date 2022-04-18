@@ -69,7 +69,16 @@ public class ProductServiceImpl implements ProductService {
 
         product.setName(productForm.getName());
         product.setDescription(productForm.getDescription());
-        product.setSummary(productForm.getSummary());
+
+        if (productForm.getSummary() != null && !productForm.getSummary().isEmpty()) {
+            product.setSummary(productForm.getSummary());
+        } else {
+            if (productForm.getDescription() != null && productForm.getDescription().length() < 250) {
+                product.setSummary(productForm.getDescription());
+            } else {
+                product.setSummary(productForm.getDescription().substring(0, 250) + "...");
+            }
+        }
         product.setRegularPrice(productForm.getRegularPrice());
         product.setActionPrice(productForm.getActionPrice());
         product.setDiscountPercentage(priceUtils.calculateDiscountPercentage(productForm.getRegularPrice(), productForm.getActionPrice()));

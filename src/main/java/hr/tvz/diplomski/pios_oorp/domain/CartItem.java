@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * CartItem domain model
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

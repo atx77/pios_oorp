@@ -30,6 +30,11 @@ public class AccountController {
     @Resource
     private OrderService orderService;
 
+    /**
+     * Shows user account page
+     * @param model model
+     * @return user account page
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String viewMyAccountPage(Model model) {
         model.addAttribute("title", "Moj profil");
@@ -38,6 +43,12 @@ public class AccountController {
         return PagesConstants.MY_ACCOUNT;
     }
 
+    /**
+     * Updates user details
+     * @param form Input form with user details
+     * @param redirectAttributes redirectAttributes
+     * @return user account page
+     */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public RedirectView updateUserProfile(@Valid @ModelAttribute("updateProfileForm")UpdateProfileForm form,
                                           RedirectAttributes redirectAttributes) {
@@ -48,6 +59,12 @@ public class AccountController {
         return redirectView;
     }
 
+    /**
+     * Shows details for {@link Order}
+     * @param orderCode {@link Order} code for which details are shown
+     * @param model model
+     * @return order details page
+     */
     @RequestMapping(value = "/order/details/{orderCode}", method = RequestMethod.GET)
     public String viewMyAccountOrderDetailsPage(@PathVariable("orderCode") final String orderCode, Model model) {
         Order order = orderService.getByCode(orderCode);

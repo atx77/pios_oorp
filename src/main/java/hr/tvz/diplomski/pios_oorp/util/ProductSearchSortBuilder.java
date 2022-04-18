@@ -10,6 +10,11 @@ public class ProductSearchSortBuilder {
 
     private final Sort DEFAULT_SORT = Sort.by(Sort.Direction.DESC, Product_.CREATION_DATE);
 
+    /**
+     * Creates Sort by provided {@link SortType}
+     * @param sortType {@link SortType}
+     * @return Sort
+     */
     public Sort build(SortType sortType) {
         if (sortType == null) {
             return DEFAULT_SORT;

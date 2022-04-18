@@ -20,6 +20,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Resource
     private UserRepository userRepository;
 
+    /**
+     * @param username Username of {@link User} to fetch from database
+     * @return UserDetails with spring security user
+     * @throws UsernameNotFoundException thrown when there is no {@link User} found by provided username
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository

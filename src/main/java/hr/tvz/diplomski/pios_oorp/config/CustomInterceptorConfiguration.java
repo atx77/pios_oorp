@@ -10,6 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 
+/**
+ * Adds custom interceptors
+ */
 @Configuration
 public class CustomInterceptorConfiguration implements WebMvcConfigurer {
 
@@ -25,6 +28,10 @@ public class CustomInterceptorConfiguration implements WebMvcConfigurer {
     @Resource
     private PopulateCurrencyDataHandlerInterceptor populateCurrencyDataHandlerInterceptor;
 
+    /**
+     * Adds custom interceptors
+     * @param registry registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(populateUserDataHandlerInterceptor);

@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Brand domain model
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -35,6 +35,11 @@ public class CartController {
     @Resource
     private OrderService orderService;
 
+    /**
+     * Shows cart page
+     * @param model model
+     * @return cart page
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String viewCartPage(Model model) {
         model.addAttribute("title", "Pregled košarice");
@@ -44,6 +49,11 @@ public class CartController {
         return PagesConstants.CART;
     }
 
+    /**
+     * Shows checkout page
+     * @param model model
+     * @return checkout page
+     */
     @RequestMapping(value = "/checkout", method = RequestMethod.GET)
     public String viewCheckoutPage(Model model) {
         model.addAttribute("title", "Naplata");
@@ -54,6 +64,12 @@ public class CartController {
         return PagesConstants.CHECKOUT;
     }
 
+    /**
+     * Creates new {@link Order} from {@link hr.tvz.diplomski.pios_oorp.domain.Cart} of session {@link hr.tvz.diplomski.pios_oorp.domain.User} and with payment details provided in form
+     * @param form Form with payment details
+     * @param redirectAttributes redirectAttributes
+     * @return order details page
+     */
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     public RedirectView createOrder(@Valid @ModelAttribute("checkoutForm")CheckoutForm form,
                                     RedirectAttributes redirectAttributes) {
@@ -66,6 +82,12 @@ public class CartController {
         return redirectView;
     }
 
+    /**
+     * Adds new {@link Product} with specified quantity to {@link hr.tvz.diplomski.pios_oorp.domain.Cart} of session {@link hr.tvz.diplomski.pios_oorp.domain.User}
+     * @param form Form with details of product that will be added to {@link hr.tvz.diplomski.pios_oorp.domain.Cart}
+     * @param redirectAttributes redirectAttributes
+     * @return cart page
+     */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public RedirectView addProductToCart(@Valid @ModelAttribute("addToCartForm")AddToCartForm form,
                                          RedirectAttributes redirectAttributes) {
@@ -78,6 +100,12 @@ public class CartController {
         return redirectView;
     }
 
+    /**
+     * Removes specified {@link Product} from {@link hr.tvz.diplomski.pios_oorp.domain.Cart} of session {@link hr.tvz.diplomski.pios_oorp.domain.User}
+     * @param form Form with Id of {@link Product} which will be removed from {@link hr.tvz.diplomski.pios_oorp.domain.Cart}
+     * @param redirectAttributes redirectAttributes
+     * @return cart page
+     */
     @RequestMapping(value = "/remove-product", method = RequestMethod.POST)
     public RedirectView removeProductFromCart(@Valid @ModelAttribute("removeProductFromCartForm")RemoveProductFromCartForm form,
                                          RedirectAttributes redirectAttributes) {
@@ -90,6 +118,12 @@ public class CartController {
         return redirectView;
     }
 
+    /**
+     * Changes quantity of {@link Product} in {@link hr.tvz.diplomski.pios_oorp.domain.Cart} of session {@link hr.tvz.diplomski.pios_oorp.domain.User}
+     * @param form Form with Id of {@link Product} for which quantity will be changed and quantity amount
+     * @param redirectAttributes redirectAttributes
+     * @return cart page
+     */
     @RequestMapping(value = "/change-quantity", method = RequestMethod.POST)
     public RedirectView changeProductQuantityInCart(@Valid @ModelAttribute("changeProductQuantityInCartForm")ChangeProductQuantityInCartForm form,
                                               RedirectAttributes redirectAttributes) {

@@ -5,6 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Recension domain model
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

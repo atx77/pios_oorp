@@ -17,6 +17,14 @@ public class PopulateUserDataHandlerInterceptor implements HandlerInterceptor {
     @Resource
     private UserService userService;
 
+    /**
+     * Adds {@link User} information to every page, loggedUser property and properties isUserAdmin, isUserCustomer and isUserGuest
+     * @param request request
+     * @param response response
+     * @param handler handler
+     * @param modelAndView modelAndView
+     * @throws Exception
+     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {

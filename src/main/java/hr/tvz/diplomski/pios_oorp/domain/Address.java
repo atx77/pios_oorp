@@ -5,6 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * Address domain model
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

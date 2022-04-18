@@ -24,6 +24,17 @@ public class SearchController {
     @Resource
     private ProductService productService;
 
+    /**
+     * Shows search page with products
+     * @param searchText Text to search in {@link Product} name
+     * @param brands List of {@link hr.tvz.diplomski.pios_oorp.domain.Brand} for filtering
+     * @param minPrice Minimum price for filtering
+     * @param maxPrice Maximum price for filtering
+     * @param isOnSale Flag is {@link Product} on sale for filtering
+     * @param sortType sorting type
+     * @param model model
+     * @return search page
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String viewSearchPage(@RequestParam(value = "text", required = false) final String searchText,
                                  @RequestParam(value = "brand", required = false) final List<String> brands,

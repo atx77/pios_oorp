@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Alert message which is shown to {@link hr.tvz.diplomski.pios_oorp.domain.User}
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

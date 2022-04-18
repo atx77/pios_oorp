@@ -19,6 +19,15 @@ import java.util.List;
 @Component
 public class ProductSearchSpecificationBuilder {
 
+    /**
+     * @param categories list of {@link Category} for filtering
+     * @param brands list of {@link Brand} for filtering
+     * @param minPrice minimum price for filtering
+     * @param maxPrice maximum price for filtering
+     * @param isOnSale flag is {@link Product} on sale for filtering
+     * @param searchString text to search in {@link Product} name
+     * @return Specification
+     */
     public Specification<Product> build(List<Category> categories, List<Brand> brands, BigDecimal minPrice,
                                                       BigDecimal maxPrice, boolean isOnSale, String searchString) {
         return (root, query, criteriaBuilder) -> {
@@ -53,35 +62,85 @@ public class ProductSearchSpecificationBuilder {
         };
     }
 
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @param categories list of {@link Category}
+     * @return predicate for filtering by {@link Category} list
+     */
     private Predicate productInAnyCategory(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder,
                                            List<Category> categories) {
         return criteriaBuilder.in(root.get(Product_.CATEGORY)).value(categories);
     }
 
+
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @param searchText text to search in {@link Product} name
+     * @return predicate for filtering by {@link Product} name
+     */
     private Predicate productNameContains(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder,
                                           String searchText) {
         return criteriaBuilder.like(root.get(Product_.NAME), "%" + searchText + "%");
     }
 
+
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @return predicate for filtering by {@link Product} active property
+     */
     private Predicate productIsActive(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder) {
         return criteriaBuilder.equal(root.get(Product_.ACTIVE), true);
     }
 
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @param brands list of {@link Brand} to filter by
+     * @return predicate for filtering by {@link Brand} list
+     */
     private Predicate productHasAnyBrand(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder,
                                          List<Brand> brands) {
         return criteriaBuilder.in(root.get(Product_.BRAND)).value(brands);
     }
 
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @param price price for filtering by {@link Product} regularPrice greater than or equal
+     * @return predicate for filtering by {@link Product} regularPrice greater than or equal
+     */
     private Predicate productPriceGreaterThanOrEqual(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder,
                                                      BigDecimal price) {
         return criteriaBuilder.greaterThanOrEqualTo(root.get(Product_.REGULAR_PRICE), price);
     }
 
+
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @param price price for filtering by {@link Product} regularPrice less than or equal
+     * @return predicate for filtering by {@link Product} regularPrice less than or equal
+     */
     private Predicate productPriceLessThanOrEqual(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder,
                                                   BigDecimal price) {
         return criteriaBuilder.lessThanOrEqualTo(root.get(Product_.REGULAR_PRICE), price);
     }
 
+    /**
+     * @param root root
+     * @param query query
+     * @param criteriaBuilder criteriaBuilder
+     * @return predicate for filtering by {@link Product} is on sale
+     */
     private Predicate productIsOnSale(Root<Product> root, CriteriaQuery query, CriteriaBuilder criteriaBuilder) {
         return criteriaBuilder.isNotNull(root.get(Product_.ACTION_PRICE));
     }

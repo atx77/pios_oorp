@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Category domain model
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

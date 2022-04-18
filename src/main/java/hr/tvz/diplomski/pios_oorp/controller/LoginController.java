@@ -17,6 +17,11 @@ public class LoginController {
     @Resource
     private UserService userService;
 
+    /**
+     * Shows login page
+     * @param model model
+     * @return login page
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String viewLoginPage(Model model) {
         model.addAttribute("title", "Prijava");

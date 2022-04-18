@@ -34,6 +34,11 @@ public class AdminController {
     @Resource
     private OrderService orderService;
 
+    /**
+     * Shows administrator homepage with list of all {@link hr.tvz.diplomski.pios_oorp.domain.Order}
+     * @param model model
+     * @return admin home page
+     */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String viewAdminHomepage(Model model) {
         model.addAttribute("title", "Pregled korisničkih narudžbi");
@@ -41,18 +46,34 @@ public class AdminController {
         return PagesConstants.ADMIN_HOMEPAGE;
     }
 
+    /**
+     * Creates new {@link hr.tvz.diplomski.pios_oorp.domain.Category}
+     * @param form Form with details of {@link hr.tvz.diplomski.pios_oorp.domain.Category} which will be created
+     * @return home page
+     */
     @RequestMapping(value = "/category/add", method = RequestMethod.POST)
     public RedirectView addNewCategory(@Valid @ModelAttribute("addCategoryAdminForm")AddCategoryAdminForm form) {
         categoryService.createNewCategory(form.getParentCategoryId(), form.getCategoryName());
         return new RedirectView("/", true);
     }
 
+    /**
+     * Changes visibility of category
+     * @param form Form with id of category for which visibility should be changed
+     * @return home page
+     */
     @RequestMapping(value = "/category/change-visibility", method = RequestMethod.POST)
     public RedirectView changeCategoryVisibility(@Valid @ModelAttribute("categoryVisibilityAdminForm") CategoryVisibilityAdminForm form) {
         categoryService.changeCategoryVisibility(form.getCategoryId());
         return new RedirectView("/", true);
     }
 
+    /**
+     * Updates {@link hr.tvz.diplomski.pios_oorp.domain.Product} with provided data
+     * @param form Form with details of product which will be updated
+     * @param redirectAttributes redirectAttributes
+     * @return product, category or homepage
+     */
     @RequestMapping(value = "/product/add-edit", method = RequestMethod.POST)
     public RedirectView addNewProductOrditExisting(@Valid @ModelAttribute("addNewProductForm") AddOrEditProductForm form,
                                                    RedirectAttributes redirectAttributes) {

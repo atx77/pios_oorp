@@ -5,5 +5,8 @@ import hr.tvz.diplomski.pios_oorp.domain.Banner;
 import java.util.List;
 
 public interface BannerService {
+    /**
+     * @return List of all {@link Banner}
+     */
     List<Banner> getAllBanners();
 }

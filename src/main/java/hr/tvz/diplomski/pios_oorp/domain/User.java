@@ -6,6 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * User domain model
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

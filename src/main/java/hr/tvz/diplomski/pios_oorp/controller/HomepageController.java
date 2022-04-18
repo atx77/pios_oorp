@@ -20,6 +20,11 @@ public class HomepageController {
     @Resource
     private ProductService productService;
 
+    /**
+     * Shows homepage with list of {@link hr.tvz.diplomski.pios_oorp.domain.Banner} and list of newest {@link hr.tvz.diplomski.pios_oorp.domain.Product} carousel
+     * @param model model
+     * @return home page
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String viewHomepage(Model model) {
         model.addAttribute("title", "Naslovna stranica");

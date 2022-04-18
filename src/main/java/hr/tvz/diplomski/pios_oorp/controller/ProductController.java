@@ -36,6 +36,12 @@ public class ProductController {
     @Resource
     private UserService userService;
 
+    /**
+     * Shows product page for requested {@link Product}
+     * @param productId Id of {@link Product} to show
+     * @param model model
+     * @return product page
+     */
     @RequestMapping(value = "/{productId}", method = RequestMethod.GET)
     public String viewProductPage(@PathVariable("productId")Long productId, Model model) {
         Product product = productService.getProductForId(productId)
@@ -52,6 +58,12 @@ public class ProductController {
         return PagesConstants.PRODUCT;
     }
 
+    /**
+     * Adds new {@link hr.tvz.diplomski.pios_oorp.domain.Recension} to {@link Product}
+     * @param form Form with {@link hr.tvz.diplomski.pios_oorp.domain.Recension} text and id of {@link Product}
+     * @param redirectAttributes redirectAttributes
+     * @return product page
+     */
     @RequestMapping(value = "/recension/add", method = RequestMethod.POST)
     public RedirectView addNewRecension(@Valid @ModelAttribute("addRecensionForm") AddRecensionForm form,
                                          RedirectAttributes redirectAttributes) {

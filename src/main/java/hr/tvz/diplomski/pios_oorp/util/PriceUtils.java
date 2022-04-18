@@ -5,6 +5,12 @@ import java.math.RoundingMode;
 
 public class PriceUtils {
 
+    /**
+     * Calculates discount percentage between two prices, scaled to 2 decimal places
+     * @param regularPrice regular price of {@link hr.tvz.diplomski.pios_oorp.domain.Product}
+     * @param actionPrice action price of {@link hr.tvz.diplomski.pios_oorp.domain.Product}
+     * @return discount percentage scaled to 2 decimal places
+     */
     public BigDecimal calculateDiscountPercentage(BigDecimal regularPrice, BigDecimal actionPrice) {
         if (actionPrice == null) {
             return BigDecimal.ZERO;

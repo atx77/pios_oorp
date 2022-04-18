@@ -23,13 +23,24 @@ public class RegisterController {
     @Resource
     private UserService userService;
 
+    /**
+     * Shows registration page
+     * @param model model
+     * @return registration page
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public String viewLoginPage(Model model) {
+    public String viewRegistrationPage(Model model) {
         model.addAttribute("title", "Registracija");
         model.addAttribute("registerForm", new RegisterForm());
         return PagesConstants.REGISTER;
     }
 
+    /**
+     * Registers new {@link hr.tvz.diplomski.pios_oorp.domain.User} with data from form
+     * @param registerForm Form with details of {@link hr.tvz.diplomski.pios_oorp.domain.User} to register
+     * @param redirectAttributes redirectAttributes
+     * @return login page
+     */
     @RequestMapping(method = RequestMethod.POST)
     public RedirectView registerNewCustomer(@Valid @ModelAttribute("registerForm")RegisterForm registerForm,
                                 RedirectAttributes redirectAttributes) {

@@ -1,5 +1,8 @@
 package hr.tvz.diplomski.pios_oorp.constant;
 
+/**
+ * Defines names of JSP pages as constants
+ */
 public class PagesConstants {
     public static final String HOMEPAGE = "homepage";
     public static final String ADMIN_HOMEPAGE = "adminHomepage";

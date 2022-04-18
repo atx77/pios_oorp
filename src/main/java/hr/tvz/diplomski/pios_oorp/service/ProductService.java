@@ -17,4 +17,5 @@ public interface ProductService {
                                                      BigDecimal maxPrice, boolean isOnSale, SortType sortType);
     List<Brand> getBrandsForProducts(List<Product> products);
     List<Product> findAllProductsByTextAndFilter(String searchText, List<String> brandNames, BigDecimal minPrice, BigDecimal maxPrice, boolean isOnSale, SortType sortType);
+    List<Product> findNewestProducts();
 }

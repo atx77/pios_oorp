@@ -58,10 +58,11 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("Category " + productForm.getCategoryId() + "does not exist!")) : null;
         Product existingProduct = productForm.getProductId() != null ? productRepository.getById(productForm.getProductId()) : null;
 
-        Product product = new Product();
+        Product product;
         if (existingProduct != null) {
             product = existingProduct;
         } else {
+            product = new Product();
             product.setCategory(category);
             product.setCreationDate(new Date());
         }
@@ -120,6 +121,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findNewestProducts() {
-        return productRepository.findTop10ByOrderByCreationDateDesc();
+        return productRepository.findTop10ByActiveIsTrueOrderByCreationDateDesc();
     }
 }
